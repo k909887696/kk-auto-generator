@@ -76,7 +76,7 @@ public class CodeTemplateServiceImpl extends MppServiceImpl<CodeTemplateMapper, 
                 + "_" + model.getTemplateType()
                 + "." + (String) SysCodeTemplateType4Suffix.CODE_VALUE_MAP.get(model.getTemplateType())
                 ;
-        FileUtil.createAndWriteTxtFile(systemSettingConfig.getCustomTemplateRootPath() + sourceFilePath, model.getTemplateContent());
+        FileUtil.createAndWriteTxtFile(systemSettingConfig.getCustomTemplateRootPath() + sourceFilePath+ "." + model.getTemplateLanguage(), model.getTemplateContent());
         model.setTemplateFileUrl(sourceFilePath);
         this.baseMapper.insert(model);
     }
@@ -93,7 +93,8 @@ public class CodeTemplateServiceImpl extends MppServiceImpl<CodeTemplateMapper, 
                 + "_" + model.getTemplateType()
                 + "." + (String)SysCodeTemplateType4Suffix.CODE_VALUE_MAP.get(model.getTemplateType())
                 ;
-        FileUtil.createAndWriteTxtFile(systemSettingConfig.getCustomTemplateRootPath() + sourceFilePath, model.getTemplateContent());
+        FileUtil.createAndWriteTxtFile(systemSettingConfig.getCustomTemplateRootPath() + sourceFilePath
+                + "." + model.getTemplateLanguage(), model.getTemplateContent());
         model.setTemplateFileUrl(sourceFilePath);
         model.setCreateTime(null);
         model.setCreateId(null);
