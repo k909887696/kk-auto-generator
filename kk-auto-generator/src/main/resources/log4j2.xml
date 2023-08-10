@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Log4j2 配置文件 参考 https://www.cnblogs.com/keeya/p/10101547.html  -->
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!-- monitorInterval=“N” 自动间隔 N 秒检测配置文件是否修改，有修改则自动重新加载配置 可以不设置  -->
+<!-- status="warn" Log4j2 本身日志输出级别 可以不设置 -->
+<configuration monitorInterval="180" >
+    <!-- 变量配置 -->
+    <Properties>
+        <!-- 日志输出格式 -->
+        <property name="LOG_PATTERN"
+                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level} [%t] [%X{traceId}] %highlight{%c{1.}.%M(%L)}: %msg%n"/>
+        <property name="LOG_PATTERN_T"
+                  value="%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level seqNo:%y[%thread][%file:%line] - %msg%n" />
+        <!-- 日志输出到文件的路径和文件名 根据项目情况更改 value 值 -->
+        <property name="LOG_FILE_PATH" value="log/kk-auto-generator"/>
+        <property name="LOG_NAME" value="app"/>
+    </Properties>
+    <!-- 定义 appenders -->
+    <appenders>
+        <!-- console 设定 控制台输出 -->
+        <console name="Console" target="SYSTEM_OUT">
+            <!-- 指定 输出格式 默认 %msg%n -->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <!-- onMatch="ACCEPT" 只输出 level 级别及级别优先级更高的 Log , onMismatch="DENY" 其他拒绝输出  -->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+        </console>
+        <!-- 将日志全部输出到 test.log,append="true" 表示重新运行时不删除日志 -->
+     <!--   <File name="FileLog" fileName="${LOG_FILE_PATH}/test.log" append="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </File>-->
+
+        <!-- 输出 error 及更高优先级的 log 到 LOG_FILE_PATH 目录下的 error.log 文件  -->
+        <RollingFile name="RollingFileError" fileName="${LOG_FILE_PATH}/ERROR-${LOG_NAME}.log"
+                     filePattern="${LOG_FILE_PATH}/%d{yyyy-MM-dd}/ERROR/ERROR-${LOG_NAME}.%d{yyyy-MM-dd-HH}_%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="72"/>
+        </RollingFile>
+        <!-- 输出 info 及更高优先级的 log 到 LOG_FILE_PATH 目录下的 info.log 文件  -->
+        <RollingFile name="RollingFileInfo" fileName="${LOG_FILE_PATH}/${LOG_NAME}.log"
+                     filePattern="${LOG_FILE_PATH}/%d{yyyy-MM-dd}/${LOG_NAME}.%d{yyyy-MM-dd-HH}_%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="72"/>
+        </RollingFile>
+    </appenders>
+
+    <!-- 在 Loggers 引入 Appender 使其生效 -->
+    <loggers>
+        <!-- Logger 节点用来单独指定 package 包下的 class 的日志输出格式等信息 -->
+        <logger  name="org.springframework" level="info" additivity="false">
+            <!-- 指定 org.springframework 的 level 及更高优先级的日志只在控制台输出 -->
+            <!-- additivity="false" 只在自定义的Appender中进行输出 -->
+            <AppenderRef ref="Console"/>
+        </logger >
+
+        <Root level="info">
+            <!-- 用来指定项目的 Root 日志规则，如果没有单独指定Logger，那么就会默认使用 Root 日志输出 -->
+            <!-- AppenderRef 用来指定日志输出到哪个 Appender -->
+            <AppenderRef ref="Console"/>
+
+            <AppenderRef ref="RollingFileInfo"/>
+
+            <AppenderRef ref="RollingFileError"/>
+        </Root>
+    </loggers>
+</configuration>

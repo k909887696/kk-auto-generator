@@ -1,0 +1,140 @@
+server:
+  port: 8881
+spring:
+  profiles:
+    active: dev
+  application:
+    name: kk-auto-generator
+  datasource:
+    name: mybatis_kk-auto-generator
+    #使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #配置基本属性
+    url: jdbc:mysql://192.168.90.126:3309/kk_auto_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+    username: ...
+    password: ...
+    #druid相关配置
+    druid:
+      #监控统计拦截的filters
+      filters: stat
+      #配置初始化大小/最小/最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 30
+      #获取连接等待超时时间
+      max-wait: 60000
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      #一个连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+  main:
+    #开启循环依赖
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  #解决2.6.0版本整合swagger报错问题 Failed to start bean 'documentationPluginsBootstrapper'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    servlet:
+      load-on-startup: 1
+  # spring boot 2 整合邮箱发送功能配置
+  mail:
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: xxxx@qq.com
+    from: xxxx@qq.com
+    # 授权码（获取方式前文已描述）
+    password: ...
+    # （邮箱服务器地址，获取方式前文已描述）
+    # 163 邮箱是smtp.163.com
+    # qq邮箱则为smtp.qq.com
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+    port: 25
+  #cloud 配置整合
+  cloud:
+    #alibaba nacos setting 如果需要可以启用nacos作为配置中心
+    nacos:
+      #nacos 服务注册发现
+      discovery:
+        enabled: false
+        namespace: kk_${spring.profiles.active}
+        register-enabled: false
+      config:
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        namespace: kk_${spring.profiles.active}
+        group: DEFAULT_GROUP
+        enabled: false
+
+
+mybatis-plus:
+  # 以下配置均有默认值,可以不设置
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #全局超时时间 (秒)
+    default-statement-timeout: 180
+    #关闭一级缓存
+    local-cache-scope: statement
+  type-aliases-package: com.kk.kkautogenerator.dao.entity
+  mapper-locations: classpath:/mapper/*xml
+
+#自定义拦截器相关配置
+custom-web-mvc-config:
+  #参数拦截器 记录请求参数
+  intercepter-parameter-pattern: /**
+
+# Swagger相关配置
+springfox:
+  documentation:
+           #开启文档
+           enabled: true
+swagger:
+  enable: true
+  #swagger文档项目名称
+  application-name: ${spring.application.name}-${spring.profiles.active}
+  #swagger版本号
+  application-version: 1.0
+  application-description: kk代码生成器
+logging:
+  level:
+    root=debug: INFO
+# 指定 Log4j2 配置文件
+  config: classpath:log4j2.xml
+log:
+  home: log/${spring.application.name}
+
+# 代码生成器基础配置
+system-setting-config:
+  # 代码生成保存根目录
+  custom-code-root-path: code/
+  # 代码生成默认作者
+  auth: kk
+  # 代码生成默认包名
+  package-name: com.kk
+  # 代码生成默认模块名称
+  module-name: xxx
+
+test: true
+

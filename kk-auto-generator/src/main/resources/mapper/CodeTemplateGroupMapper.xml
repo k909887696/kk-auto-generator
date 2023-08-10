@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.kkautogenerator.dao.mapper.CodeTemplateGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kk.kkautogenerator.dao.entity.CodeTemplateGroup">
+        <id column="template_group_id" property="templateGroupId" />
+        <result column="template_group_name" property="templateGroupName" />
+        <result column="template_group_class" property="templateGroupClass" />
+        <result column="create_id" property="createId" />
+        <result column="template_language" property="templateLanguage" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        template_group_id as 'templateGroupId',
+        template_group_name as 'templateGroupName',
+        template_group_class as 'templateGroupClass',
+        create_id as 'createId',
+        template_language as 'templateLanguage',
+        create_time as 'createTime'
+
+    </sql>
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <trim prefix="where" prefixOverrides="and | or">
+           <if test="codeTemplateGroupListVo.templateGroupId != null and codeTemplateGroupListVo.templateGroupId != ''">
+               and template_group_id = #{codeTemplateGroupListVo.templateGroupId}
+           </if>
+           <if test="codeTemplateGroupListVo.templateGroupName != null and codeTemplateGroupListVo.templateGroupName != ''">
+               and template_group_name like concat('%',#{codeTemplateGroupListVo.templateGroupName},'%')
+           </if>
+           <if test="codeTemplateGroupListVo.templateGroupClass != null and codeTemplateGroupListVo.templateGroupClass != ''">
+               and template_group_class = #{codeTemplateGroupListVo.templateGroupClass}
+           </if>
+           <if test="codeTemplateGroupListVo.createId != null and codeTemplateGroupListVo.createId != ''">
+               and create_id = #{codeTemplateGroupListVo.createId}
+           </if>
+           <if test="codeTemplateGroupListVo.templateLanguage != null and codeTemplateGroupListVo.templateLanguage != ''">
+               and template_language = #{codeTemplateGroupListVo.templateLanguage}
+           </if>
+           <if test="codeTemplateGroupListVo.createTimeStart != null and codeTemplateGroupListVo.createTimeStart != ''">
+               and create_time >= #{codeTemplateGroupListVo.createTimeStart}
+           </if>
+           <if test="codeTemplateGroupListVo.createTimeEnd != null and codeTemplateGroupListVo.createTimeEnd != ''">
+               and create_time &lt;= #{codeTemplateGroupListVo.createTimeEnd}
+           </if>
+        </trim>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.kk.kkautogenerator.model.dto.CodeTemplateGroupListDto">
+        select <include refid="BaseColumnList"/>
+        from code_template_group
+        <include refid="BaseWhere"/>
+
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.kkautogenerator.dao.mapper.DbConnectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kk.kkautogenerator.dao.entity.DbConnect">
+        <id column="db_connect_code" property="dbConnectCode" />
+        <result column="db_connect_url" property="dbConnectUrl" />
+        <result column="db_connect_name" property="dbConnectName" />
+        <result column="db_connect_user" property="dbConnectUser" />
+        <result column="db_connect_password" property="dbConnectPassword" />
+        <result column="db_connect_port" property="dbConnectPort" />
+        <result column="db_connect_database" property="dbConnectDatabase" />
+        <result column="create_time" property="createTime" />
+        <result column="create_id" property="createId" />
+        <result column="db_connect_type" property="dbConnectType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        db_connect_code as 'dbConnectCode',
+        db_connect_url as 'dbConnectUrl',
+        db_connect_name as 'dbConnectName',
+        db_connect_user as 'dbConnectUser',
+        db_connect_password as 'dbConnectPassword',
+        db_connect_port as 'dbConnectPort',
+        db_connect_database as 'dbConnectDatabase',
+        create_time as 'createTime',
+        create_id as 'createId',
+        db_connect_type as 'dbConnectType'
+
+    </sql>
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <trim prefix="where" prefixOverrides="and | or">
+           <if test="dbConnectListVo.dbConnectCode != null and dbConnectListVo.dbConnectCode != ''">
+               and db_connect_code = #{dbConnectListVo.dbConnectCode}
+           </if>
+           <if test="dbConnectListVo.dbConnectUrl != null and dbConnectListVo.dbConnectUrl != ''">
+               and db_connect_url = #{dbConnectListVo.dbConnectUrl}
+           </if>
+           <if test="dbConnectListVo.dbConnectName != null and dbConnectListVo.dbConnectName != ''">
+               and db_connect_name like concat('%',#{dbConnectListVo.dbConnectName},'%')
+           </if>
+           <if test="dbConnectListVo.dbConnectUser != null and dbConnectListVo.dbConnectUser != ''">
+               and db_connect_user = #{dbConnectListVo.dbConnectUser}
+           </if>
+           <if test="dbConnectListVo.dbConnectPassword != null and dbConnectListVo.dbConnectPassword != ''">
+               and db_connect_password = #{dbConnectListVo.dbConnectPassword}
+           </if>
+           <if test="dbConnectListVo.dbConnectPort != null and dbConnectListVo.dbConnectPort != ''">
+               and db_connect_port = #{dbConnectListVo.dbConnectPort}
+           </if>
+           <if test="dbConnectListVo.dbConnectDatabase != null and dbConnectListVo.dbConnectDatabase != ''">
+               and db_connect_database = #{dbConnectListVo.dbConnectDatabase}
+           </if>
+           <if test="dbConnectListVo.createTimeStart != null and dbConnectListVo.createTimeStart != ''">
+               and create_time >= #{dbConnectListVo.createTimeStart}
+           </if>
+           <if test="dbConnectListVo.createTimeEnd != null and dbConnectListVo.createTimeEnd != ''">
+               and create_time &lt;= #{dbConnectListVo.createTimeEnd}
+           </if>
+           <if test="dbConnectListVo.createId != null and dbConnectListVo.createId != ''">
+               and create_id = #{dbConnectListVo.createId}
+           </if>
+           <if test="dbConnectListVo.dbConnectType != null and dbConnectListVo.dbConnectType != ''">
+               and db_connect_type = #{dbConnectListVo.dbConnectType}
+           </if>
+        </trim>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.kk.kkautogenerator.model.dto.DbConnectListDto">
+        select <include refid="BaseColumnList"/>
+        from db_connect
+        <include refid="BaseWhere"/>
+
+    </select>
+
+
+
+</mapper>

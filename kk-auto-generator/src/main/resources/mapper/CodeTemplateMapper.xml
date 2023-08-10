@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.kkautogenerator.dao.mapper.CodeTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kk.kkautogenerator.dao.entity.CodeTemplate">
+        <id column="template_id" property="templateId" />
+        <result column="template_type" property="templateType" />
+        <result column="template_class" property="templateClass" />
+        <result column="template_content" property="templateContent" />
+        <result column="template_file_url" property="templateFileUrl" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="template_name" property="templateName" />
+        <result column="template_language" property="templateLanguage" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        template_id as 'templateId',
+        template_type as 'templateType',
+        template_class as 'templateClass',
+        template_content as 'templateContent',
+        template_file_url as 'templateFileUrl',
+        create_id as 'createId',
+        create_time as 'createTime',
+        template_name as 'templateName',
+        template_language as 'templateLanguage'
+
+    </sql>
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <trim prefix="where" prefixOverrides="and | or">
+           <if test="codeTemplateListVo.templateId != null and codeTemplateListVo.templateId != ''">
+               and template_id = #{codeTemplateListVo.templateId}
+           </if>
+           <if test="codeTemplateListVo.templateType != null and codeTemplateListVo.templateType != ''">
+               and template_type = #{codeTemplateListVo.templateType}
+           </if>
+           <if test="codeTemplateListVo.templateClass != null and codeTemplateListVo.templateClass != ''">
+               and template_class = #{codeTemplateListVo.templateClass}
+           </if>
+           <if test="codeTemplateListVo.templateContent != null and codeTemplateListVo.templateContent != ''">
+               and template_content = #{codeTemplateListVo.templateContent}
+           </if>
+           <if test="codeTemplateListVo.templateFileUrl != null and codeTemplateListVo.templateFileUrl != ''">
+               and template_file_url = #{codeTemplateListVo.templateFileUrl}
+           </if>
+           <if test="codeTemplateListVo.createId != null and codeTemplateListVo.createId != ''">
+               and create_id = #{codeTemplateListVo.createId}
+           </if>
+           <if test="codeTemplateListVo.createTimeStart != null and codeTemplateListVo.createTimeStart != ''">
+               and create_time >= #{codeTemplateListVo.createTimeStart}
+           </if>
+           <if test="codeTemplateListVo.createTimeEnd != null and codeTemplateListVo.createTimeEnd != ''">
+               and create_time &lt;= #{codeTemplateListVo.createTimeEnd}
+           </if>
+           <if test="codeTemplateListVo.templateName != null and codeTemplateListVo.templateName != ''">
+               and template_name like concat('%',#{codeTemplateListVo.templateName},'%')
+           </if>
+           <if test="codeTemplateListVo.templateLanguage != null and codeTemplateListVo.templateLanguage != ''">
+               and template_language = #{codeTemplateListVo.templateLanguage}
+           </if>
+        </trim>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.kk.kkautogenerator.model.dto.CodeTemplateListDto">
+        select <include refid="BaseColumnList"/>
+        from code_template
+        <include refid="BaseWhere"/>
+
+    </select>
+
+
+
+</mapper>
