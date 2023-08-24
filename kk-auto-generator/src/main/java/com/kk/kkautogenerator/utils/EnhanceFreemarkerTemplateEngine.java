@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
+import com.kk.common.utils.FileUtil;
 import com.kk.kkautogenerator.config.SystemSettingConfig;
 import com.kk.kkautogenerator.constant.SysCodeTemplateType4FileUrl;
 import freemarker.cache.ClassTemplateLoader;
@@ -44,11 +45,12 @@ public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
     public EnhanceFreemarkerTemplateEngine init(@NotNull ConfigBuilder configBuilder) {
         this.configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         this.configuration.setDefaultEncoding(ConstVal.UTF8);
-
+        File templateFile = new File( systemSettingConfig.getCustomTemplateRootPath());
+        FileUtil.deleteFile(templateFile);
         try {
             MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(new TemplateLoader[]{
                     new ClassTemplateLoader(EnhanceFreemarkerTemplateEngine.class, "/"),
-                    new FileTemplateLoader(new File( systemSettingConfig.getCustomTemplateRootPath()))
+                    new FileTemplateLoader(templateFile)
             });
             this.configuration.setTemplateLoader(multiTemplateLoader);
         } catch (IOException e) {
