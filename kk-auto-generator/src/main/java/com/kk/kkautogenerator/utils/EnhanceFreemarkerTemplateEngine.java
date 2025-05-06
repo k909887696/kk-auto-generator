@@ -87,7 +87,11 @@ public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
             if (key.toLowerCase().contains(".js") || key.toLowerCase().contains(".vue") || key.toLowerCase().contains(".html") || key.toLowerCase().contains(".htm")) {
                 String fileName = String.format( systemSettingConfig.getCustomCodeRootPath() + this.getConfigBuilder().getPackageConfig().getModuleName() +"/view" + File.separator + key, tableInfo.getName());
                 this.outputFile(new File(fileName), objectMap, value);
-            } else {
+            }else if (key.toLowerCase().contains("flinkcdc") ) {
+                String fileName = String.format( systemSettingConfig.getCustomCodeRootPath() + this.getConfigBuilder().getPackageConfig().getModuleName() +"/flinkcdc" + File.separator + key, tableInfo.getName());
+                this.outputFile(new File(fileName), objectMap, value);
+            }
+            else {
                 String fileName = String.format(otherPath + File.separator + key, entityName);
                 this.outputFile(new File(fileName), objectMap, value);
             }

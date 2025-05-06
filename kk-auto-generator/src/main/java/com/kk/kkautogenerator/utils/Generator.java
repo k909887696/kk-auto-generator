@@ -89,7 +89,7 @@ public class Generator {
             ROUTER_JS = "/templates/router.js";
             API_JS = "/templates/api.js";
             LISTVIEW_VUE = "/templates/listview.vue";
-            POSTGRESQL_SQL = "/templates/postgresql.sql";
+            POSTGRESQL_SQL = "/templates/flinkcdcpostgresql.sql";
             FLINKCDCSINK_JAVA= "/templates/flinkcdcsink.sql";
             FLINKCDCSOURCEENTITY_JAVA= "/templates/flinkcdcsourceentity.sql";
         }

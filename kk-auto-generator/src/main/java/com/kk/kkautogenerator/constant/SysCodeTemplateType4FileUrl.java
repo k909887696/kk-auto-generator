@@ -58,7 +58,7 @@ public class SysCodeTemplateType4FileUrl {
 
         CODE_VALUE_MAP.put("api_js", "/templates/api.js.ftl");
 
-        CODE_VALUE_MAP.put("postgresql_sql", "/templates/postgresql.sql.ftl");
+        CODE_VALUE_MAP.put("postgresql_sql", "/templates/flinkcdcpostgresql.sql.ftl");
 
         CODE_VALUE_MAP.put("flinkcdcsink_java",  "/templates/flinkcdcsink.java.ftl");
         CODE_VALUE_MAP.put("flinkcdcsourceentity_java", "/templates/flinkcdcsourceentity.java.ftl");
