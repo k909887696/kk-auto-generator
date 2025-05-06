@@ -91,7 +91,7 @@ public class DbConnectServiceImpl extends MppServiceImpl<DbConnectMapper, DbConn
 
         DbConnect model = mapperUtils.map(vo,DbConnect.class);
         try {
-            model.setDbConnectPassword(RSAUtil.encryptRSAStr(model.getDbConnectPassword()));
+           // model.setDbConnectPassword(RSAUtil.encryptRSAStr(model.getDbConnectPassword()));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
@@ -128,7 +128,7 @@ public class DbConnectServiceImpl extends MppServiceImpl<DbConnectMapper, DbConn
         DbConnect model = mapperUtils.map(vo,DbConnect.class);
         if(!StringUtils.isEmpty(vo.getDbConnectPassword())) {
             try {
-                model.setDbConnectPassword(RSAUtil.encryptRSAStr(model.getDbConnectPassword()));
+                //model.setDbConnectPassword(RSAUtil.encryptRSAStr(model.getDbConnectPassword()));
             } catch (Exception e) {
                 throw new BusinessException(e.getMessage());
             }
@@ -164,7 +164,7 @@ public class DbConnectServiceImpl extends MppServiceImpl<DbConnectMapper, DbConn
         DbConnect model = mapperUtils.map(vo,DbConnect.class);
         DbConnect res = this.baseMapper.selectById(model);
         try {
-            res.setDbConnectPassword(RSAUtil.decryptRSAStr(res.getDbConnectPassword()));
+            //res.setDbConnectPassword(RSAUtil.decryptRSAStr(res.getDbConnectPassword()));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }

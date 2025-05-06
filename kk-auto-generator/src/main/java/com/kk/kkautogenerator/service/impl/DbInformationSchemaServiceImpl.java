@@ -64,7 +64,15 @@ public class DbInformationSchemaServiceImpl
             tableName = vo.getTableName();
         }
 
-        List<Map<String, Object>> res = this.sqlRepository.doSelect(dataSource, String.format(DbSystemInfoSql.SELECT_TABLES_INFO_SQL, new Object[]{dataSource.getDbConnectDatabase(), "%" + tableName + "%", "%" + tableName + "%"}), null);
+        List<Map<String, Object>> res =null;
+
+        if("sqlserver".equals(connect.getDbConnectType())){
+            res = this.sqlRepository.doSelect(dataSource, String.format(DbSystemInfoSql.SELECT_TABLES_INFO_SQL_MSSQL, new Object[]{"%" + tableName + "%"}), null);
+
+        }else {
+            res = this.sqlRepository.doSelect(dataSource, String.format(DbSystemInfoSql.SELECT_TABLES_INFO_SQL, new Object[]{dataSource.getDbConnectDatabase(), "%" + tableName + "%", "%" + tableName + "%"}), null);
+        }
+
         return res;
     }
 

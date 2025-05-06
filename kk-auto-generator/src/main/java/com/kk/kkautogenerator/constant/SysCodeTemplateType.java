@@ -21,6 +21,9 @@ public class SysCodeTemplateType {
     public static final String API_JS = "api_js";
     public static final String LISTVIEW_VUE = "listview_vue";
     public static final String ROUTER_JS = "router_js";
+
+    public static final String POSTGRESQL_SQL = "postgresql_sql";
+
     public static final Map<String, Integer> CODE_VALUE_MAP = new HashMap<>();
 
     static {
@@ -57,6 +60,11 @@ public class SysCodeTemplateType {
         CODE_VALUE_MAP.put("router_js", -15);
 
         CODE_VALUE_MAP.put("api_js", -16);
+
+        CODE_VALUE_MAP.put("postgresql_sql", -17);
+
+        CODE_VALUE_MAP.put("flinkcdcsink_java", -18);
+        CODE_VALUE_MAP.put("flinkcdcsourceentity_java", -19);
     }
 }
 

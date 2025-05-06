@@ -27,7 +27,7 @@ public class Generator {
     @Resource
     public EnhanceFreemarkerTemplateEngine enhanceFreemarkerTemplateEngine;
     public  String generateCode(GenerateCodeVo vo ) {
-        String DAO_ENTITY, MAPPER, DAO_MAPPER, SERVICE, SERVICE_IMPL, CONTROLLER, ADDVO, DELETEVO, LISTVO, EDITVO, DETAILSVO, DTO, LISTDTO, ROUTER_JS, API_JS, LISTVIEW_VUE;
+        String DAO_ENTITY, MAPPER, DAO_MAPPER, SERVICE, SERVICE_IMPL, CONTROLLER, ADDVO, DELETEVO, LISTVO, EDITVO, DETAILSVO, DTO, LISTDTO, ROUTER_JS, API_JS, LISTVIEW_VUE, POSTGRESQL_SQL,FLINKCDCSINK_JAVA,FLINKCDCSOURCEENTITY_JAVA;
         if (vo.getCodeTemplateList() != null) {
 
 
@@ -67,6 +67,10 @@ public class Generator {
             API_JS = ((CodeTemplate) vo.getCodeTemplateList().get("api_js")).getTemplateFileUrl();
 
             LISTVIEW_VUE = ((CodeTemplate) vo.getCodeTemplateList().get("listview_vue")).getTemplateFileUrl();
+
+            POSTGRESQL_SQL = ((CodeTemplate) vo.getCodeTemplateList().get("postgresql_sql")).getTemplateFileUrl();
+            FLINKCDCSINK_JAVA= ((CodeTemplate) vo.getCodeTemplateList().get("flinkcdcsink_java")).getTemplateFileUrl();
+            FLINKCDCSOURCEENTITY_JAVA= ((CodeTemplate) vo.getCodeTemplateList().get("flinkcdcsourceentity_java")).getTemplateFileUrl();
         } else {
 
             MAPPER = "/templates/mapper.xml";
@@ -85,6 +89,9 @@ public class Generator {
             ROUTER_JS = "/templates/router.js";
             API_JS = "/templates/api.js";
             LISTVIEW_VUE = "/templates/listview.vue";
+            POSTGRESQL_SQL = "/templates/postgresql.sql";
+            FLINKCDCSINK_JAVA= "/templates/flinkcdcsink.sql";
+            FLINKCDCSOURCEENTITY_JAVA= "/templates/flinkcdcsourceentity.sql";
         }
 
         String rootPath =  systemSettingConfig.getCustomCodeRootPath() + vo.getModuleName();
@@ -183,6 +190,11 @@ public class Generator {
                     customFileMap.put("api" + File.separator + vo.getModuleName() + File.separator + "%s_api.js", API_JS);
                     customFileMap.put("views" + File.separator + vo.getModuleName() + File.separator + "%s_list.vue", LISTVIEW_VUE);
                     customFileMap.put("router" + File.separator + vo.getModuleName() + File.separator + "%s_router.js", ROUTER_JS);
+                    customFileMap.put("flinkcdc" + File.separator + vo.getModuleName() + File.separator + "%s.sql", POSTGRESQL_SQL);
+
+                    customFileMap.put("flinkcdc" + File.separator + "%sSink.java", FLINKCDCSINK_JAVA);//("flink-cdc-sink_java",  "java");
+                    customFileMap.put("flinkcdc" + File.separator + "%s.java", FLINKCDCSOURCEENTITY_JAVA);
+
                     builder.customMap(paramMap).customFile(customFileMap);
                 }).execute();
         return rootPath;

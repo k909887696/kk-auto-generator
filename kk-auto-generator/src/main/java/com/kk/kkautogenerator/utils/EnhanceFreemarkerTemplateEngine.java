@@ -46,7 +46,10 @@ public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
         this.configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         this.configuration.setDefaultEncoding(ConstVal.UTF8);
         File templateFile = new File( systemSettingConfig.getCustomTemplateRootPath());
-        FileUtil.deleteFile(templateFile);
+        if (!templateFile.exists()) {
+            templateFile.mkdirs();
+        }
+        //FileUtil.deleteFile(templateFile);
         try {
             MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(new TemplateLoader[]{
                     new ClassTemplateLoader(EnhanceFreemarkerTemplateEngine.class, "/"),

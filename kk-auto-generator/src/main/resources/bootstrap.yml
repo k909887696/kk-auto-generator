@@ -12,8 +12,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #配置基本属性
     url: jdbc:mysql://192.168.90.126:3309/kk_auto_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
-    username: ...
-    password: ...
+    username: hotel
+    password: ^d4DD8$g,uccDB=F
     #druid相关配置
     druid:
       #监控统计拦截的filters

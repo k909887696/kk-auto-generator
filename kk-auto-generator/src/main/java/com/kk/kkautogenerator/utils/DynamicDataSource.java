@@ -52,12 +52,16 @@ public class DynamicDataSource
 
     public boolean createDataSource(String key, String driveClass, String url, String username, String password, String databasetype) {
         try {
-            try {
+           /* try {
                 Class.forName(driveClass);
-                DriverManager.getConnection(url, username, password);
+                if("com.microsoft.sqlserver.jdbc.SQLServerDriver".equals(driveClass)){
+                    DriverManager.getConnection(url);
+                }else {
+                    DriverManager.getConnection(url, username, password);
+                }
             } catch (Exception e) {
                 return false;
-            }
+            }*/
 
             DruidDataSource druidDataSource = new DruidDataSource();
 
@@ -88,6 +92,7 @@ public class DynamicDataSource
                 validationQuery = "select 1";
             }
 
+            druidDataSource.setDriverClassName(driveClass);
             druidDataSource.setTestOnBorrow(true);
             druidDataSource.setTestWhileIdle(true);
             druidDataSource.setValidationQuery(validationQuery);
@@ -137,7 +142,12 @@ public class DynamicDataSource
     public boolean testDatasource(String key, String driveClass, String url, String username, String password) {
         try {
             Class.forName(driveClass);
-            DriverManager.getConnection(url, username, password);
+            if("com.microsoft.sqlserver.jdbc.SQLServerDriver".equals(driveClass)){
+                url=url+"user="+username+";password="+password+";";
+                DriverManager.getConnection(url);
+            }else {
+                DriverManager.getConnection(url, username, password);
+            }
             return true;
         } catch (Exception e) {
             return false;

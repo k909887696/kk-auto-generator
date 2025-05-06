@@ -56,6 +56,12 @@ public class SysCodeTemplateType4Suffix {
         CODE_VALUE_MAP.put("router_js", "js");
 
         CODE_VALUE_MAP.put("api_js", "js");
+        CODE_VALUE_MAP.put("postgresql_sql", "sql");
+
+        CODE_VALUE_MAP.put("flinkcdcsink_java",  "java");
+        CODE_VALUE_MAP.put("flinkcdcsourceentity_java", "java");
+
+
     }
 }
 
