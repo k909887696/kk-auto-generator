@@ -1,14 +1,16 @@
 package com.kk.kkautogenerator.model.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 /*    */ import java.util.List;
-/*    */ import javax.validation.constraints.NotEmpty;
+
 
 @Data
 public class BaseDataItemMapGetVo {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty("查询类型：InvokeCycleType：调度类型周期，")
+    @Schema(description = "查询类型：InvokeCycleType：调度类型周期，")
     @NotEmpty(message = "查询类型不能为空")
     private List<String> queryTypeList;
 

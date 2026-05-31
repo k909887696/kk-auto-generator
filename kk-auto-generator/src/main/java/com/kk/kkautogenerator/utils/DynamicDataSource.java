@@ -90,6 +90,9 @@ public class DynamicDataSource
             } else if ("sqlserver".equalsIgnoreCase(databasetype)) {
                 driveClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
                 validationQuery = "select 1";
+            }else if ("postgresql".equalsIgnoreCase(databasetype)) {
+                driveClass = "org.postgresql.Driver";
+                validationQuery = "select 1";
             }
 
             druidDataSource.setDriverClassName(driveClass);
@@ -164,6 +167,9 @@ public class DynamicDataSource
             driveClass = "net.sourceforge.jtds.jdbc.Driver";
         } else if ("sqlserver".equalsIgnoreCase(databasetype)) {
             driveClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        }else if("postgresql".equalsIgnoreCase(databasetype))
+        {
+            driveClass = "org.postgresql.Driver";
         }
         if (!testDatasource(key, driveClass, url, username, password)) {
             throw new BusinessException("数据源配置有错误");
@@ -268,6 +274,9 @@ public class DynamicDataSource
             driveClass = "net.sourceforge.jtds.jdbc.Driver";
         } else if ("sqlserver".equalsIgnoreCase(databasetype)) {
             driveClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        }else if("postgresql".equalsIgnoreCase(databasetype))
+        {
+            driveClass = "org.postgresql.Driver";
         }
         if (testDatasource(datasourceId, driveClass, url, username, password)) {
             boolean result = createDataSource(datasourceId, driveClass, url, username, password, databasetype);

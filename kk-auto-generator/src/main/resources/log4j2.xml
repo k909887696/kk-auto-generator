@@ -12,7 +12,7 @@
         <property name="LOG_PATTERN_T"
                   value="%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level seqNo:%y[%thread][%file:%line] - %msg%n" />
         <!-- 日志输出到文件的路径和文件名 根据项目情况更改 value 值 -->
-        <property name="LOG_FILE_PATH" value="log/kk-auto-generator"/>
+        <property name="LOG_FILE_PATH" value="log/st-kk-auto-generator"/>
         <property name="LOG_NAME" value="app"/>
     </Properties>
     <!-- 定义 appenders -->

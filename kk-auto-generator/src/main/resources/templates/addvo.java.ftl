@@ -1,11 +1,10 @@
-package ${package.Other}.vo;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req;
 
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
 <#if swagger>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
 import lombok.Data;
@@ -29,9 +28,9 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 <#if swagger>
-@ApiModel(value = "${table.comment!}新增实体", description = "${table.comment!}")
+@Schema(description = "${table.comment!}")
 </#if>
-public class ${entity}AddVo implements Serializable {
+public class ${entity}AddReqVo implements Serializable {
 
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
@@ -46,7 +45,7 @@ public class ${entity}AddVo implements Serializable {
     /**
     * ${field.comment}
     */
-    @ApiModelProperty("${field.comment}")
+    @Schema(description ="${field.comment}")
         <#else>
     /**
      * ${field.comment}

@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.kk.kkautogenerator.dao.entity.CodeTemplateGroupSub;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -22,7 +22,7 @@ import lombok.Data;
  * @since 2023-08-02
  */
 @Data
-@ApiModel(value = "代码模板分组编辑实体", description = "代码模板分组")
+@Schema(  description = "代码模板分组")
 public class CodeTemplateGroupEditVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,35 +30,35 @@ public class CodeTemplateGroupEditVo implements Serializable {
     /**
     * 模板分组编号
     */
-    @ApiModelProperty("模板分组编号")
+    @Schema(description ="模板分组编号")
     private Integer templateGroupId;
     /**
     * 模板分组名称
     */
-    @ApiModelProperty("模板分组名称")
+    @Schema(description ="模板分组名称")
     private String templateGroupName;
     /**
     * 模板分组分类【sys：系统，per：个人】
     */
-    @ApiModelProperty("模板分组分类【sys：系统，per：个人】")
+    @Schema(description ="模板分组分类【sys：系统，per：个人】")
     private String templateGroupClass;
     /**
     * 模板分组创建人
     */
-    @ApiModelProperty("模板分组创建人")
+    @Schema(description ="模板分组创建人")
     private String createId;
     /**
     * 模板语言【ftl、btl、vm】
     */
-    @ApiModelProperty("模板语言【ftl、btl、vm】")
+    @Schema(description ="模板语言【ftl、btl、vm】")
     private String templateLanguage;
     /**
     * 创建时间
     */
-    @ApiModelProperty("创建时间")
+    @Schema(description ="创建时间")
     private Date createTime;
 
-    @ApiModelProperty("模板明细列表")
+    @Schema(description ="模板明细列表")
     private List<CodeTemplateGroupSub> codeTemplateGroupSubList;
 
 

@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -17,7 +17,7 @@ import lombok.Data;
  * @since 2023-08-02
  */
 @Data
-@ApiModel(value = "代码模板分组明细列表返回实体", description = "代码模板分组明细")
+@Schema( description = "代码模板分组明细")
 public class CodeTemplateGroupSubListDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,17 +25,17 @@ public class CodeTemplateGroupSubListDto implements Serializable {
     /**
     * 模板分组编号
     */
-    @ApiModelProperty("模板分组编号")
+    @Schema(description ="模板分组编号")
     private Integer templateGroupId;
     /**
     * 模板编号
     */
-    @ApiModelProperty("模板编号")
+    @Schema(description ="模板编号")
     private Integer templateId;
     /**
     * 模板类型
     */
-    @ApiModelProperty("模板类型")
+    @Schema(description ="模板类型")
     private String templateType;
 
 

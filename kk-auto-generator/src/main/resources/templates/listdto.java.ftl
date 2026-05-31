@@ -1,11 +1,10 @@
-package ${package.Other}.dto;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res;
 
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
 <#if swagger>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
 import lombok.Data;
@@ -29,9 +28,9 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 <#if swagger>
-@ApiModel(value = "${table.comment!}列表返回实体", description = "${table.comment!}")
+@Schema( description = "${table.comment!}列表返回实体")
 </#if>
-public class ${entity}ListDto implements Serializable {
+public class ${entity}ListResVo implements Serializable {
 
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
@@ -47,7 +46,7 @@ public class ${entity}ListDto implements Serializable {
     /**
     * ${field.comment}
     */
-    @ApiModelProperty("${field.comment}")
+    @Schema(description ="${field.comment}")
         <#else>
     /**
      * ${field.comment}

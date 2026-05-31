@@ -4,8 +4,8 @@ package ${package.Entity}
 import ${pkg}
 </#list>
 <#if swagger>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 
 /**
@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 @TableName("${schemaName}${table.name}")
 </#if>
 <#if swagger>
-@ApiModel(value = "${entity}对象", description = "${table.comment!}")
+@Schema(value = "${entity}对象", description = "${table.comment!}")
 </#if>
 <#if superEntityClass??>
 class ${entity} : ${superEntityClass}<#if activeRecord><${entity}></#if> {
@@ -42,7 +42,7 @@ class ${entity} {
         /**
         * ${field.comment}
         */
-        @ApiModelProperty("${field.comment}")
+        @Schema(description ="${field.comment}")
 <#else>
     /**
      * ${field.comment}

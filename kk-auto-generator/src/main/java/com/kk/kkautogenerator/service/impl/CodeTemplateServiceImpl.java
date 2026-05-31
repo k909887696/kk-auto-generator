@@ -9,7 +9,7 @@ import com.kk.kkautogenerator.constant.SysCodeTemplateType4FileUrl;
 import com.kk.kkautogenerator.constant.SysCodeTemplateType4Suffix;
 import com.kk.kkautogenerator.model.vo.*;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.metadata.IPage;

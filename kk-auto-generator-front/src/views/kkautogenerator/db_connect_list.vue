@@ -76,6 +76,11 @@
           {{ scope.row.dbConnectDatabase }}
         </template>
       </el-table-column>
+      <el-table-column align="center" label="模块名称" width="150">
+        <template slot-scope="scope">
+          {{ scope.row.moduleName }}
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="链接数据库类型" width="150">
         <template slot-scope="scope">
           {{ scope.row.dbConnectType }}
@@ -129,6 +134,9 @@
         </el-form-item>
         <el-form-item label="链接数据库名" prop="type">
           <el-input v-model="temp.dbConnectDatabase" placeholder="链接数据库名" />
+        </el-form-item>
+        <el-form-item label="模块名称" prop="type">
+          <el-input v-model="temp.moduleName" placeholder="模块名称" />
         </el-form-item>
         <el-form-item label="链接数据库类型" prop="type">
           <el-input v-model="temp.dbConnectType" placeholder="链接数据库类型【mysql/mssq】" />
@@ -193,7 +201,8 @@ export default {
         dbConnectDatabase: undefined,
         createTime: undefined,
         createId: undefined,
-        dbConnectType: undefined
+        dbConnectType: undefined,
+        moduleName: undefined
       },
       dialogStatus: 'insert'
     }
@@ -201,6 +210,7 @@ export default {
   created() { // 初始化界面
     get_base_data_item_map({ queryTypeList: this.baseDataItemMapType }).then(response => {
       this.dbTypeList = response.data === null ? {} : response.data.queryTypeResult['dbType'.toLowerCase()]
+      
     })
     this.getPageList()
   },
@@ -247,13 +257,14 @@ export default {
       get_details(row).then(response => {
         this.temp = Object.assign({}, response.data === null ? row : response.data) // copy obj
         this.temp.createTime = parseTime(new Date(row.createTime), '{y}-{m}-{d} {h}:{i}:{s}')
-
+        this.temp.moduleName = this.temp.moduleName ===null || this.temp.moduleName === '' ? this.temp.dbConnectDatabase.replace(/_/g, '').toLowerCase() : this.temp.moduleName
         this.dialogFormVisible = true
       })
     },
     addDataDialog(row) {
       this.dialogStatus = 'insert'
       this.temp = Object.assign({}, row) // copy obj
+      this.temp.moduleName = this.temp.moduleName ===null || this.temp.moduleName === '' ? this.temp.dbConnectDatabase.replace(/_/g, '').toLowerCase() : this.temp.moduleName
       this.dialogFormVisible = true
     },
     copyDataDialog(row) {

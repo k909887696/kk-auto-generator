@@ -1,19 +1,15 @@
-package ${package.Other}.vo;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req;
 
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
 <#if swagger>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
-<#if entityLombokModel>
 import lombok.Data;
-    <#if chainModel>
-import lombok.experimental.Accessors;
-    </#if>
-</#if>
-import com.kk.common.base.model.BasePage;
+<#list baseNameSpace.voImport as imp>
+import ${imp};
+</#list>
 /**
  * <p>
  * ${table.comment!}列表查询实体
@@ -29,9 +25,9 @@ import com.kk.common.base.model.BasePage;
     </#if>
 </#if>
 <#if swagger>
-@ApiModel(value = "${table.comment!}列表查询实体", description = "${table.comment!}")
+@Schema(description = "${table.comment!}列表查询实体")
 </#if>
-public class ${entity}ListVo extends BasePage{
+public class ${entity}ListReqVo extends ${baseNameSpace.basePage}{
 
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
@@ -48,7 +44,7 @@ public class ${entity}ListVo extends BasePage{
     /**
     * ${field.comment}
     */
-    @ApiModelProperty("${field.comment}")
+    @Schema(description = "${field.comment}")
         <#else>
     /**
      * ${field.comment}
@@ -65,7 +61,7 @@ public class ${entity}ListVo extends BasePage{
     /**
     * ${field.comment}开始
     */
-    @ApiModelProperty("${field.comment}开始")
+    @Schema(description ="${field.comment}开始")
         <#else>
     /**
      * ${field.comment}开始
@@ -81,7 +77,7 @@ public class ${entity}ListVo extends BasePage{
     /**
     * ${field.comment}结束
     */
-    @ApiModelProperty("${field.comment}结束")
+    @Schema(description ="${field.comment}结束")
     <#else>
     /**
     * ${field.comment}结束

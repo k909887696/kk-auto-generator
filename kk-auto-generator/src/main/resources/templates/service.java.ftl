@@ -1,17 +1,15 @@
 package ${package.Service};
 
 import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
-
 import java.util.List;
-import ${package.Other}.vo.${entity}ListVo;
-import ${package.Other}.dto.${entity}ListDto;
-import ${package.Other}.vo.${entity}AddVo;
-import ${package.Other}.vo.${entity}EditVo;
-import ${package.Other}.dto.${entity}Dto;
-import ${package.Other}.vo.${entity}DetailsVo;
-import ${package.Other}.vo.${entity}DeleteVo;
-<#list customServiceNamespace as imp>
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}ListReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ListResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}AddReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}EditReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}DetailsReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}DeleteReqVo;
+<#list baseNameSpace.serviceImport as imp>
 import ${imp};
 </#list>
 /**
@@ -22,47 +20,43 @@ import ${imp};
  * @author ${author}
  * @since ${date}
  */
-<#if kotlin>
-interface ${table.serviceName} : ${superServiceClass}<${entity}>
-<#else>
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+public interface ${table.serviceName}  {
 
     /**
-    * 分批批量插入
+    * 分批批量插入${table.comment!}
     * @param list 数据列表
     * @return
     */
-    void insertIgnoreBatch(List<${entity}> list);
+    void insert${entity}BatchSomeColumn(List<${entity}> list);
     /**
-    * 分页获取结果集
+    * 单条插入${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    PageResult<${entity}ListDto>  selectPageList(${entity}ListVo vo);
+    void insert${entity}(${entity}AddReqVo vo);
     /**
-    * 单条插入
+    * 更新${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    void insert(${entity}AddVo vo);
+    int update${entity}(${entity}EditReqVo vo);
     /**
-    * 更新
+    * 单条查询${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    int update(${entity}EditVo vo);
+    ${entity}ResVo select${entity}ById(${entity}DetailsReqVo vo);
     /**
-    * 单条查询
+    * 删除${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    ${entity}Dto selectById(${entity}DetailsVo vo);
+    int delete${entity}ById(${entity}DeleteReqVo vo);
     /**
-    * 删除
+    * 分页获取${table.comment!}结果集
     * @param vo 请求参数
     * @return 结果集
     */
-    int deleteById(${entity}DeleteVo vo);
-
+    ${baseNameSpace.basePageResult}<${entity}ListResVo>  select${entity}PageList(${entity}ListReqVo vo);
 }
-</#if>
+

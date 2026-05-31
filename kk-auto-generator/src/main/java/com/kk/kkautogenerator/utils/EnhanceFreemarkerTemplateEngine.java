@@ -1,25 +1,26 @@
 package com.kk.kkautogenerator.utils;
 
-import com.baomidou.mybatisplus.generator.config.ConstVal;
-import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.kk.common.utils.FileUtil;
+import com.kk.common.utils.JsonUtil;
 import com.kk.kkautogenerator.config.SystemSettingConfig;
-import com.kk.kkautogenerator.constant.SysCodeTemplateType4FileUrl;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,27 +30,32 @@ import java.util.Map;
 
 /**
  * @author：kk 2023/5/15
- * 自定义模板freemarker引擎
+ * 自定义模板freemarker引擎 - 适配 MyBatis-Plus Generator 3.5.15+
  */
 @Component
 public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
 
+    private static final Log logger = LogFactory.getLog(EnhanceFreemarkerTemplateEngine.class);
+
     @Resource
     public SystemSettingConfig systemSettingConfig;
-    public EnhanceFreemarkerTemplateEngine() {
-    }
 
     private Configuration configuration;
 
+    public EnhanceFreemarkerTemplateEngine() {
+    }
+
     @NotNull
+    @Override
     public EnhanceFreemarkerTemplateEngine init(@NotNull ConfigBuilder configBuilder) {
         this.configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         this.configuration.setDefaultEncoding(ConstVal.UTF8);
-        File templateFile = new File( systemSettingConfig.getCustomTemplateRootPath());
+
+        File templateFile = new File(systemSettingConfig.getCustomTemplateRootPath());
         if (!templateFile.exists()) {
             templateFile.mkdirs();
         }
-        //FileUtil.deleteFile(templateFile);
+
         try {
             MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(new TemplateLoader[]{
                     new ClassTemplateLoader(EnhanceFreemarkerTemplateEngine.class, "/"),
@@ -57,122 +63,119 @@ public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
             });
             this.configuration.setTemplateLoader(multiTemplateLoader);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("初始化 Freemarker 模板引擎失败", e);
         }
-
-
 
         return this;
     }
 
     @NotNull
+    @Override
     public String templateFilePath(@NotNull String filePath) {
         return filePath + ".ftl";
     }
 
-
     /**
-     * 重写自定义模板输出文件格式路劲
+     * 重写自定义文件输出路径
      *
-     * @param customFile
-     * @param tableInfo
-     * @param objectMap
+     * @param customFile 自定义文件映射
+     * @param tableInfo 表信息
+     * @param objectMap 对象映射
      */
     @Override
-    protected void outputCustomFile(@NotNull Map<String, String> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+    protected void outputCustomFile(@NotNull List<CustomFile> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         String entityName = tableInfo.getEntityName();
-        String otherPath = this.getPathInfo(OutputFile.other);
-        logger.info(otherPath);
-        customFile.forEach((key, value) -> {
-            if (key.toLowerCase().contains(".js") || key.toLowerCase().contains(".vue") || key.toLowerCase().contains(".html") || key.toLowerCase().contains(".htm")) {
-                String fileName = String.format( systemSettingConfig.getCustomCodeRootPath() + this.getConfigBuilder().getPackageConfig().getModuleName() +"/view" + File.separator + key, tableInfo.getName());
-                this.outputFile(new File(fileName), objectMap, value);
-            }else if (key.toLowerCase().contains("flinkcdc") ) {
-                String fileName = String.format( systemSettingConfig.getCustomCodeRootPath() + this.getConfigBuilder().getPackageConfig().getModuleName() +"/flinkcdc" + File.separator + key, tableInfo.getName());
-                this.outputFile(new File(fileName), objectMap, value);
+        String rootOutputFilePath = objectMap.getOrDefault("rootOutputFilePath", "").toString();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("rootOutputFilePath: " + rootOutputFilePath);
+        }
+
+        customFile.forEach((key) -> {
+            if (logger.isDebugEnabled()) {
+                logger.debug("outputCustomFile, key: " + JsonUtil.getJSONString( key) );
             }
-            else {
-                String fileName = String.format(otherPath + File.separator + key, entityName);
-                this.outputFile(new File(fileName), objectMap, value);
-            }
+
+            String fileName;
+
+            fileName = String.format(rootOutputFilePath + File.separator + key.getFileName(), entityName);
+
+            this.outputFile(new File(fileName), objectMap, key.getTemplatePath(),true);
         });
     }
+
+    public void outputCustomFile(@NotNull List<CustomFile> customFile, @NotNull String className, @NotNull Map<String, Object> objectMap)
+    {
+        String entityName = className;
+
+        customFile.forEach((key) -> {
+
+            String fileName;
+
+            fileName = String.format(key.getFileName(), entityName);
+
+            this.outputFile(new File(fileName), objectMap, key.getTemplatePath(),true);
+        });
+    }
+
 
     /**
      * 追加自定义实体映射
      *
-     * @param config
-     * @param tableInfo
-     * @return
+     * @param config 配置构建器
+     * @param tableInfo 表信息
+     * @return 对象映射
      */
     @Override
     public Map<String, Object> getObjectMap(@NotNull ConfigBuilder config, @NotNull TableInfo tableInfo) {
-        // 获取实体类名字
         String entityName = tableInfo.getEntityName();
-        // 获取object map
-        Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);//获取系统实体映射
-        // 获取Other的盘符路径
-        String otherPath = (String) ((Map<String, Object>) objectMap.get("package")).get("Other");
-        // 自定义枚举
+        Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);
+
+        String otherPath = (String) ((Map<?, ?>) objectMap.get("package")).get("Other");
+
         List<String> modelList = CustomEnum.getModel();
-        // 循环
         modelList.forEach(it -> {
-            // 转小写
             String var = it.toLowerCase();
-            // 存入object map
             objectMap.put(var, otherPath + "." + var + "." + entityName + it);
         });
-        // 追加自定义实体映射
-        // 自定义converter
+
         objectMap.put("commonConverter", "com.zhanghp.common.converter.CommonConverter");
-        // converter utils
         objectMap.put("converterUtil", "com.zhanghp.common.converter.utils.ConverterUtil");
-        // 分页
         objectMap.put("pageParent", "com.zhanghp.common.model.PageParent");
-        // utils
         objectMap.put("objectUtils", "com.zhanghp.common.utils.ObjectUtils");
-        // 返回结果封装
         objectMap.put("r", "com.zhanghp.common.response.R");
-        int i = 0;
-        for (TableField field : tableInfo.getFields()
-        ) {
+
+        int multiIdCount = 0;
+        for (TableField field : tableInfo.getFields()) {
             if (field.isKeyFlag()) {
-                i++;
-                //System.out.println(tableInfo.getComment()+":"+i);
+                multiIdCount++;
             }
         }
-
-        objectMap.put("mppMultiIdCount", i);
-
+        objectMap.put("mppMultiIdCount", multiIdCount);
 
         return objectMap;
     }
 
+    @Override
     public void writer(@NotNull Map<String, Object> objectMap, @NotNull String templatePath, @NotNull File outputFile) throws Exception {
         Template template = this.configuration.getTemplate(templatePath);
-        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-        Throwable var6 = null;
 
-        try {
-            template.process(objectMap, new OutputStreamWriter(fileOutputStream, ConstVal.UTF8));
-        } catch (Throwable var15) {
-            var6 = var15;
-            throw var15;
-        } finally {
-            if (fileOutputStream != null) {
-                if (var6 != null) {
-                    try {
-                        fileOutputStream.close();
-                    } catch (Throwable var14) {
-                        var6.addSuppressed(var14);
-                    }
-                } else {
-                    fileOutputStream.close();
-                }
-            }
-
+        try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, ConstVal.UTF8)) {
+            template.process(objectMap, outputStreamWriter);
+        } catch (Exception e) {
+            logger.error("模板写入失败: " + templatePath + " -> " + outputFile.getAbsolutePath(), e);
+            throw e;
         }
-
     }
 
+    @Override
+    public AbstractTemplateEngine batchOutput() {
+        return super.batchOutput();
+    }
+
+    @Override
+    public String writer(@NotNull Map<String, Object> objectMap, @NotNull String templateName, @NotNull String templateString) throws Exception {
+        return null;
+    }
 }

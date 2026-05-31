@@ -1,6 +1,6 @@
 package com.kk.kkautogenerator.utils;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+
 
 
 import java.util.ArrayList;

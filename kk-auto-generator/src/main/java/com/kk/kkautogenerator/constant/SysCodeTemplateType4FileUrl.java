@@ -5,64 +5,68 @@ import java.util.Map;
 
 
 public class SysCodeTemplateType4FileUrl {
-    public static final String DAO_ENTITY = "dao_entity";
-    public static final String SERVICE = "service";
-    public static final String SERVICE_IMPL = "service_impl";
-    public static final String CONTROLLER = "controller";
-    public static final String DAO_MAPPER = "dao_mapper";
-    public static final String MAPPER = "mapper";
-    public static final String LISTVO = "listvo";
-    public static final String ADDVO = "addvo";
-    public static final String EDITVO = "editvo";
-    public static final String DELETEVO = "deletevo";
-    public static final String DETAILSVO = "detailsvo";
-    public static final String DTO = "dto";
-    public static final String LISTDTO = "listdto";
-    public static final String API_JS = "api_js";
-    public static final String LISTVIEW_VUE = "listview_vue";
-    public static final String ROUTER_JS = "router_js";
+
 
     public static final Map<String, String> CODE_VALUE_MAP = new HashMap<>();
 
     static {
-        CODE_VALUE_MAP.put("dao_entity", "/templates/entity.java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.dao_entity, "/templates/entity.java");
 
-        CODE_VALUE_MAP.put("service", "/templates/service.java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.service, "/templates/service.java");
 
 
-        CODE_VALUE_MAP.put("service_impl", "/templates/serviceImpl.java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.service_impl, "/templates/serviceImpl.java");
 
-        CODE_VALUE_MAP.put("controller", "/templates/controller.java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.controller, "/templates/controller.java");
 
-        CODE_VALUE_MAP.put("dao_mapper", "/templates/mapper.java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.dao_mapper, "/templates/mapper.java");
 
-        CODE_VALUE_MAP.put("mapper", "/templates/mapper.xml");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.mapper, "/templates/mapper.xml");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.listvo, "/templates/listvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.addvo, "/templates/addvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.editvo, "/templates/editvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.deletevo, "/templates/deletevo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.detailsvo, "/templates/detailsvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.dto, "/templates/dto.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.listdto, "/templates/listdto.java.ftl");
 
-        CODE_VALUE_MAP.put("listvo", "/templates/listvo.java.ftl");
+        //CODE_VALUE_MAP.put(SysCodeTemplateType.listview_vue, "/templates/listview.vue.ftl");
 
-        CODE_VALUE_MAP.put("addvo", "/templates/addvo.java.ftl");
+       // CODE_VALUE_MAP.put(SysCodeTemplateType., "/templates/router.js.ftl");
 
-        CODE_VALUE_MAP.put("editvo", "/templates/editvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.serviceImplApi, "/templates/serviceImplApi.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.serviceImplView, "/templates/serviceImplView.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.bll, "/templates/serviceBll.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.controllerV, "/templates/controllerV.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.controllerExt, "/templates/controllerExt.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.controllerInn, "/templates/controllerInn.java.ftl");
 
-        CODE_VALUE_MAP.put("deletevo", "/templates/deletevo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientaddvo, "/templates/clientaddvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientlistvo, "/templates/clientlistvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clienteditvo, "/templates/clienteditvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientdeletevo, "/templates/clientdeletevo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientdetailsvo, "/templates/clientdetailsvo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientdto, "/templates/clientdto.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientlistdto, "/templates/clientlistdto.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.clientservicefeign, "/templates/clientservicefeign.java.ftl");
 
-        CODE_VALUE_MAP.put("detailsvo", "/templates/detailsvo.java.ftl");
-
-        CODE_VALUE_MAP.put("dto", "/templates/dto.java.ftl");
-
-        CODE_VALUE_MAP.put("listdto", "/templates/listdto.java.ftl");
-
-        CODE_VALUE_MAP.put("listview_vue", "/templates/listview.vue.ftl");
-
-        CODE_VALUE_MAP.put("router_js", "/templates/router.js.ftl");
-
-        CODE_VALUE_MAP.put("api_js", "/templates/api.js.ftl");
-
-        CODE_VALUE_MAP.put("postgresql_sql", "/templates/flinkcdcpostgresql.sql.ftl");
-
-        CODE_VALUE_MAP.put("flinkcdcsink_java",  "/templates/flinkcdcsink.java.ftl");
-        CODE_VALUE_MAP.put("flinkcdcsourceentity_java", "/templates/flinkcdcsourceentity.java.ftl");
-
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeService, "/templates/customizeService.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeServiceImplApi, "/templates/customizeServiceImplApi.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeServiceImpl, "/templates/customizeServiceImpl.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeServiceImplView, "/templates/customizeServiceImplView.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeReqVo, "/templates/customizeReqVo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeResVo, "/templates/customizeResVo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntra, "/templates/customizeControllerIntra.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerGroup, "/templates/customizeControllerGroup.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerInc, "/templates/customizeControllerInc.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerPlatform, "/templates/customizeControllerPlatform.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerSupplier, "/templates/customizeControllerSupplier.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntraDispatch, "/templates/customizeControllerIntradispatch.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerTmc, "/templates/customizeControllerTmc.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientReqVo, "/templates/customizeClientReqVo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientResVo, "/templates/customizeClientResVo.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientservicefeign, "/templates/customizeClientservicefeign.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeBll, "/templates/customizeBll.java.ftl");
 
 
     }

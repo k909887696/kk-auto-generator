@@ -1,14 +1,16 @@
 package ${package.Mapper};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package.Entity}.${entity};
-import ${superMapperClassPackage};
+<#list baseNameSpace.daoMapperImport as imp>
+import ${imp};
+</#list>
 <#if mapperAnnotation>
 import org.apache.ibatis.annotations.Mapper;
 </#if>
-import ${package.Other}.dto.${entity}ListDto;
-import ${package.Other}.vo.${entity}ListVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ListResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}ListReqVo;
 /**
  * <p>
  * ${table.comment!} Mapper 接口
@@ -20,13 +22,9 @@ import ${package.Other}.vo.${entity}ListVo;
 <#if mapperAnnotation>
 @Mapper
 </#if>
-<#if kotlin>
-interface ${table.mapperName} : ${superMapperClass}<${entity}>
-<#else>
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+public interface ${table.mapperName} extends ${baseNameSpace.mapperBaseClass}<${entity}> {
      /**
-     * 查询列表
+     * 查询${table.comment!}列表
      */
-     Page selectPageList(IPage page, ${entity}ListVo ${entity?uncap_first}ListVo);
+     Page<${entity}ListResVo> select${entity}PageList(Page page, ${entity}ListReqVo ${entity?uncap_first}ListReqVo);
 }
-</#if>

@@ -7,7 +7,7 @@ import com.kk.kkautogenerator.model.dto.CodeTemplateGroupSubListDto;
 import com.kk.kkautogenerator.model.vo.*;
 import com.kk.kkautogenerator.service.ICodeTemplateGroupSubService;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

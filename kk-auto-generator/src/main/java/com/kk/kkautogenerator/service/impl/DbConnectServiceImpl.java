@@ -4,7 +4,7 @@ package com.kk.kkautogenerator.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.kk.common.utils.RSAUtil;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -126,12 +126,9 @@ public class DbConnectServiceImpl extends MppServiceImpl<DbConnectMapper, DbConn
         }
 
         DbConnect model = mapperUtils.map(vo,DbConnect.class);
-        if(!StringUtils.isEmpty(vo.getDbConnectPassword())) {
-            try {
-                //model.setDbConnectPassword(RSAUtil.encryptRSAStr(model.getDbConnectPassword()));
-            } catch (Exception e) {
-                throw new BusinessException(e.getMessage());
-            }
+        if(StringUtils.isEmpty(vo.getDbConnectPassword())) {
+            DbConnect old = this.baseMapper.selectById(model.getDbConnectCode());
+            model.setDbConnectPassword(old.getDbConnectPassword());
         }
         int r = this.baseMapper.updateById(model);
         if(r != 1)

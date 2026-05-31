@@ -18,5 +18,5 @@ public interface CodeTemplateMapper extends RootMapper<CodeTemplate> {
      /**
      * 查询列表
      */
-     Page selectPageList(IPage page, CodeTemplateListVo codeTemplateListVo);
+     Page<CodeTemplateListDto> selectPageList(IPage page, CodeTemplateListVo codeTemplateListVo);
 }

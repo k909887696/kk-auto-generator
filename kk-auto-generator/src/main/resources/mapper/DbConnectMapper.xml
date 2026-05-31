@@ -14,6 +14,7 @@
         <result column="create_time" property="createTime" />
         <result column="create_id" property="createId" />
         <result column="db_connect_type" property="dbConnectType" />
+        <result column="module_name" property="moduleName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -28,6 +29,7 @@
         create_time as 'createTime',
         create_id as 'createId',
         db_connect_type as 'dbConnectType'
+           , module_name as 'moduleName'
 
     </sql>
     <!-- 通用查询条件 -->

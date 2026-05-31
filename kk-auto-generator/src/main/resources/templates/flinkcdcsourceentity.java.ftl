@@ -1,4 +1,4 @@
-package ${package.Other}.vo;
+package ${entityvoPackageName}.vo;
 
 <#list table.importPackages as pkg>
 import ${pkg};
@@ -47,7 +47,7 @@ public class ${entity} extends SourceBase {
      */
         </#if>
     </#if>
-    private ${field.propertyType} ${field.name};
+    private <#if field.metaInfo.jdbcType?lower_case == "bigint">Long<#elseif field.metaInfo.jdbcType?lower_case == "bit">Integer<#else> ${field.propertyType}</#if> ${field.name};
 </#list>
 <#------------  END 字段循环遍历  ---------->
 

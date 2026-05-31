@@ -2,23 +2,22 @@ package ${package.ServiceImpl};
 
 
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
-import ${package.Other}.vo.${entity}ListVo;
-import ${package.Other}.dto.${entity}ListDto;
-import ${package.Other}.vo.${entity}AddVo;
-import ${package.Other}.vo.${entity}EditVo;
-import ${package.Other}.dto.${entity}Dto;
-import ${package.Other}.vo.${entity}DetailsVo;
-import ${package.Other}.vo.${entity}DeleteVo;
-<#list customImplNamespace as imp>
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}ListReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ListResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}AddReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}EditReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}DetailsReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}DeleteReqVo;
+<#list baseNameSpace.serviceImplImport as imp>
 import ${imp};
 </#list>
 /**
@@ -31,20 +30,20 @@ import ${imp};
  */
 @Service
 <#if kotlin>
-open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+open class ${table.serviceImplName} : ServiceImpl<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
 }
 <#else>
-public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+public class ${table.serviceImplName} extends ServiceImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
-    @Resource
-    public MapperUtils mapperUtils;
+
     /**
-    * 分批批量插入
+    * 分批批量插入${table.comment!}
     * @param list 数据列表
     * @return
     */
-    public void insertIgnoreBatch(List<${entity}> list)
+    @Override
+    public void insert${entity}BatchSomeColumn(List<${entity}> list)
     {
 
         if(list ==null || list.size()<=0) return ;
@@ -57,27 +56,31 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         for(;index<=totalPage;index++)
         {
             List<${entity}> tempList = list.stream().skip((index-1)*size).limit(size).collect(Collectors.toList());
-            this.baseMapper.insertIgnoreBatchSomeColumn(tempList);
+            this.baseMapper.insertBatchSomeColumn(tempList);
         }
     }
     /**
-    * 单条插入
+    * 单条插入${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    public void insert(${entity}AddVo vo)
+    @Override
+    public void insert${entity}(${entity}AddReqVo vo)
     {
-        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${entity} model = new ${entity}();
+        BeanUtil.copyProperties(vo,model);
         this.baseMapper.insert(model);
     }
     /**
-    * 更新
+    * 更新${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    public int update(${entity}EditVo vo)
+    @Override
+    public int update${entity}(${entity}EditReqVo vo)
     {
-        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${entity} model = new ${entity}();
+        BeanUtil.copyProperties(vo,model);
         <#if mppMultiIdCount <= 1 >
         int r = this.baseMapper.updateById(model);
         <#else >
@@ -90,29 +93,34 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         return r;
     }
     /**
-    * 单条查询
+    * 单条查询${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    public ${entity}Dto selectById(${entity}DetailsVo vo)
+    @Override
+    public ${entity}ResVo select${entity}ById(${entity}DetailsReqVo vo)
     {
-        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${entity} model = new ${entity}();
+        BeanUtil.copyProperties(vo,model);
         <#if mppMultiIdCount <= 1>
         ${entity} res = this.baseMapper.selectById(model);
         <#else >
         ${entity} res = this.baseMapper.selectByMultiId(model);
         </#if>
-        ${entity}Dto dto = mapperUtils.map(res,${entity}Dto.class);
-        return dto;
+        ${entity}ResVo resVo = new ${entity}ResVo();
+        BeanUtil.copyProperties(res,resVo);
+        return resVo;
     }
     /**
-    * 删除
+    * 删除${table.comment!}
     * @param vo 请求参数
     * @return 结果集
     */
-    public int deleteById(${entity}DeleteVo vo)
+    @Override
+    public int delete${entity}ById(${entity}DeleteReqVo vo)
     {
-        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${entity} model = new ${entity}();
+        BeanUtil.copyProperties(vo,model);
         <#if mppMultiIdCount <= 1>
         int r = this.baseMapper.deleteById(model);
         <#else >
@@ -125,22 +133,18 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         return r;
     }
     /**
-    * 分页获取结果集
+    * 分页获取${table.comment!}结果集
     * @param vo 请求参数
     * @return 结果集
     */
-    public PageResult<${entity}ListDto>  selectPageList(${entity}ListVo vo){
+    @Override
+    public ${baseNameSpace.basePageResult}<${entity}ListResVo>  select${entity}PageList(${entity}ListReqVo vo){
 
-        IPage<${entity}ListDto> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
-        page = this.baseMapper.selectPageList(page,vo);
-        PageResult<${entity}ListDto>  pageResult = new PageResult<>();
+        Page<${entity}ListResVo> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
+        Page<${entity}ListResVo> results = this.baseMapper.select${entity}PageList(page,vo);
+        ${baseNameSpace.basePageResult}<${entity}ListResVo>  pageResult = new ${baseNameSpace.basePageResult}<>();
 
-        pageResult.setResult(page.getRecords());
-        pageResult.setTotalCount(page.getTotal());
-        pageResult.setPageIndex(vo.getPageIndex());
-        pageResult.setPageSize(vo.getPageSize());
-
-        return pageResult;
+        return pageResult.convertPage(results);
     }
 
 

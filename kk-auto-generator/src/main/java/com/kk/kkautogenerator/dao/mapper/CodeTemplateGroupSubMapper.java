@@ -18,5 +18,5 @@ public interface CodeTemplateGroupSubMapper extends RootMapper<CodeTemplateGroup
      /**
      * 查询列表
      */
-     Page selectPageList(IPage page, CodeTemplateGroupSubListVo codeTemplateGroupSubListVo);
+     Page<CodeTemplateGroupSubListDto> selectPageList(IPage page, CodeTemplateGroupSubListVo codeTemplateGroupSubListVo);
 }

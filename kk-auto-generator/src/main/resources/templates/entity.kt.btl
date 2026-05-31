@@ -4,8 +4,8 @@ package ${package.Entity}
 import ${pkg}
 <% } %>
 <% if(swagger){ %>
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.media.Schema
 <% } %>
 
 /**
@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty
 @TableName("${schemaName}${table.name}")
 <% } %>
 <% if(swagger){ %>
-@ApiModel(value = "${entity}对象", description = "${table.comment!''}")
+@Schema(value = "${entity}对象", description = "${table.comment!''}")
 <% } %>
 <% if(isNotEmpty(superEntityClass)){ %>
 class ${entity} : ${superEntityClass}<% if(activeRecord){ %><${entity}><%}%>{
@@ -41,7 +41,7 @@ class ${entity} {
     %>
     <% if(isNotEmpty(field.comment)){ %>
         <% if(swagger){ %>
-    @ApiModelProperty("${field.comment}")
+    @Schema(description ="${field.comment}")
         <% }else{ %>
     /**
      * ${field.comment}

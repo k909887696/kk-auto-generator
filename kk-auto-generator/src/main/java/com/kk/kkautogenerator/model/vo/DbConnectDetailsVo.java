@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -19,14 +19,14 @@ import lombok.Data;
  * @since 2023-08-02
  */
 @Data
-@ApiModel(value = "数据库链接查询详情实体", description = "数据库链接")
+@Schema( description = "数据库链接")
 public class DbConnectDetailsVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
     * db链接编号
     */
-    @ApiModelProperty("db链接编号")
+    @Schema(description ="db链接编号")
     private Integer dbConnectCode;
 
 

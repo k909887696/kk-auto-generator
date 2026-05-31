@@ -4,8 +4,7 @@ package ${package.Entity};
 import ${pkg};
 </#list>
 <#if swagger>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+ import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
 import lombok.Data;
@@ -34,7 +33,7 @@ import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
 @TableName("${schemaName}${table.name}")
 </#if>
 <#if swagger>
-@ApiModel(value = "${table.comment!}对象", description = "${table.comment!}")
+@Schema(description = "${table.comment!}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
@@ -60,7 +59,7 @@ public class ${entity} {
     /**
     * ${field.comment}
     */
-    @ApiModelProperty("${field.comment}")
+    @Schema(description = "${field.comment}")
         <#else>
     /**
      * ${field.comment}

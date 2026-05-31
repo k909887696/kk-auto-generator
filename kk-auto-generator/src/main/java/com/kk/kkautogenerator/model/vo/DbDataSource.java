@@ -1,26 +1,26 @@
 package com.kk.kkautogenerator.model.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class DbDataSource {
-    @ApiModelProperty("db链接编号")
+    @Schema(description ="db链接编号")
     private Integer dbConnectCode;
-    @ApiModelProperty("db链接地址")
+    @Schema(description ="db链接地址")
     private String dbConnectUrl;
-    @ApiModelProperty("db链接名称")
+    @Schema(description ="db链接名称")
     private String dbConnectName;
-    @ApiModelProperty("db链接用户")
+    @Schema(description ="db链接用户")
     private String dbConnectUser;
 
-    @ApiModelProperty("db链接密码")
+    @Schema(description ="db链接密码")
     private String dbConnectPassword;
-    @ApiModelProperty("db链接端口")
+    @Schema(description ="db链接端口")
     private String dbConnectPort;
-    @ApiModelProperty("db链接数据库名")
+    @Schema(description ="db链接数据库名")
     private String dbConnectDatabase;
-    @ApiModelProperty("数据库类型，支持oracle、mysql、sqlserver2000、sqlserver、postgresql")
+    @Schema(description ="数据库类型，支持oracle、mysql、sqlserver2000、sqlserver、postgresql")
     private String dbConnectType;
 
 }

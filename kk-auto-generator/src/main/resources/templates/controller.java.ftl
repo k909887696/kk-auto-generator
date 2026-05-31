@@ -3,10 +3,9 @@ package ${package.Controller};
 
 import org.springframework.web.bind.annotation.*;
 <#if swagger>
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+mport io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 </#if>
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -16,19 +15,25 @@ import org.springframework.stereotype.Controller;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import ${package.Service}.${table.serviceName};
-import com.kk.common.web.model.ApiResult;
-import com.kk.common.base.model.PageResult;
-import ${package.Other}.vo.${entity}ListVo;
-import ${package.Other}.dto.${entity}ListDto;
-import ${package.Other}.vo.${entity}AddVo;
-import ${package.Other}.vo.${entity}EditVo;
-import ${package.Other}.vo.${entity}DetailsVo;
-import ${package.Other}.vo.${entity}DeleteVo;
-import ${package.Other}.dto.${entity}Dto;
+import com.meiya.tihb.common.BaseExceptionCustom;
+import com.meiya.tihb.webapicode.BaseWebApiFinal;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import ${package.Service}.${entity}ServiceApi;
+<#list custControllerNamespace as imp>
+import ${imp};
+</#list>
+import ${entityvoPackageName}.vobase.req.${entity}ListReqVo;
+import ${entityvoPackageName}.vobase.res.${entity}ListResVo;
+import ${entityvoPackageName}.vobase.req.${entity}AddReqVo;
+import ${entityvoPackageName}.vobase.req.${entity}EditReqVo;
+import ${entityvoPackageName}.vobase.res.${entity}ResVo;
+import ${entityvoPackageName}.vobase.req.${entity}DetailsReqVo;
+import ${entityvoPackageName}.vobase.req.${entity}DeleteReqVo;
 import ${package.Entity}.${entity};
 /**
  * <p>
@@ -39,95 +44,55 @@ import ${package.Entity}.${entity};
  * @since ${date}
  */
 <#if swagger>
-@Api(value = "<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}",tags = "${table.comment!}")
+@Tag(name = "${table.comment!}",description = "${table.comment!}")
 </#if>
-@ResponseBody
-<#if restControllerStyle>
 @RestController
-<#else>
-@Controller
-</#if>
-@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}")
+@RequestMapping(BaseWebApiFinal.PathInternalApi + CustomWebApiFinal.CustomSystemPath + "/Intra${entity}Api")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
-public class ${table.controllerName} {
+public class Intra${entity}ApiController {
 </#if>
 
     @Resource
-    public ${table.serviceName} ${entity?uncap_first}Service;
+    public ${entity}ServiceApi ${entity?uncap_first}ServiceApi;
 
-    @ApiOperation("获取分页结果集")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/get_${table.name}_page_list")
-    public ApiResult< PageResult<${entity}ListDto> > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
+    @Operation("获取${table.comment!}分页结果集")
+    @PostMapping("/get${entity}PageList")
+    public BasePageApiTRspVo<${entity}ListVo> get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
 
-        return new  ApiResult(${entity?uncap_first}Service.selectPageList(vo));
+        return ${entity?uncap_first}ServiceApi.selectPageList(vo);
 
     }
-    @ApiOperation("删除")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/delete_by_id")
-    public ApiResult<?> deleteById(@Valid @RequestBody ${entity}DeleteVo vo)   {
-        ${entity?uncap_first}Service.deleteById(vo);
-        return ApiResult.SUCCESS;
+    @Operation("删除${table.comment!}")
+    @PostMapping("/delete${entity}ById")
+    public BaseApiTRspVo<?> delete${entity}ById(@Valid @RequestBody ${entity}DeleteVo vo)   {
+        ${entity?uncap_first}ServiceApi.deleteById(vo);
+        return new BaseApiTRspVo<>();
 
     }
-    @ApiOperation("插入")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/insert")
-    public ApiResult<?> insert(@Valid @RequestBody ${entity}AddVo vo)   {
-        ${entity?uncap_first}Service.insert(vo);
-        return ApiResult.SUCCESS;
+    @Operation("插入${table.comment!}")
+    @PostMapping("/insert${entity}")
+    public BaseApiTRspVo<?> insert${entity}(@Valid @RequestBody ${entity}AddVo vo)   {
+        ${entity?uncap_first}ServiceApi.insert(vo);
+        return new BaseApiTRspVo<>();
 
     }
-    @ApiOperation("更新")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/update")
-    public ApiResult<?> update(@Valid @RequestBody ${entity}EditVo vo)   {
-        ${entity?uncap_first}Service.update(vo);
-        return ApiResult.SUCCESS;
+    @Operation("更新${table.comment!}")
+    @PostMapping("/update${entity}")
+    public BaseApiTRspVo<?> update${entity}(@Valid @RequestBody ${entity}EditVo vo)   {
+        ${entity?uncap_first}ServiceApi.update(vo);
+        return new BaseApiTRspVo<>();
 
     }
-    @ApiOperation("查询详情")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/get_details")
-    public ApiResult< ${entity}Dto > getDetails(@Valid @RequestBody ${entity}DetailsVo vo)   {
+    @Operation("查询${table.comment!}详情")
+    @PostMapping("/get${entity}Details")
+    public BaseApiTRspVo< ${entity}ResVo > get${entity}Details(@Valid @RequestBody ${entity}DetailsReqVo vo)   {
 
-        return new  ApiResult(${entity?uncap_first}Service.selectById(vo));
+        return new  BaseApiTRspVo<>(${entity?uncap_first}Service.selectById(vo));
 
     }
 

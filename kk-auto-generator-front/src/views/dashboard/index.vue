@@ -6,6 +6,8 @@
 
         <el-row>
           <el-col :span="8">
+            <el-tabs v-model="generatorParam.generateType"  type="border-card">
+             <el-tab-pane label="数据源" name="1">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 数据源
@@ -72,6 +74,23 @@
                 </el-table-column>
               </el-table>
             </el-card>
+            </el-tab-pane>
+                <el-tab-pane label="自定义" name="2">
+                  <el-alert
+                    title="使用方法：类名::类备注.方法1名::方法1备注.方法2名::方法2备注...
+                    (链式匹配，多个类换行输入，符号不区分中英文，大家放心填写！)"
+                    description="使用示例：testClass::测试类.testMethod1::测试方法1.testMethod2::测试方法2"
+                    type="success"
+                    :closable="false">
+                  </el-alert>
+                  <el-input
+              type="textarea"
+              :autosize="{ minRows: 24, maxRows: 24}"
+              placeholder="使用示例：testClass::测试类.testMethod1::测试方法1.testMethod2::测试方法2"
+              v-model="generatorParam.customizeClass">
+            </el-input>
+          </el-tab-pane>
+            </el-tabs>
           </el-col>
           <el-col :span="15">
             <el-card class="box-card">
@@ -99,9 +118,44 @@
                         active-text=""
                         inactive-text=""
                       />
-
                     </el-form-item>
-
+                  </el-row>
+                  </el-collapse-item>
+                   <el-collapse-item title="控制器" name="1"> 
+                  <el-row>
+                    
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.vController" label="vController" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.extController" label="extController" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.innController" label="innController" border></el-checkbox>
+                    </el-form-item>
+                  </el-row>
+                </el-collapse-item>
+                   <el-collapse-item title="分层生成" name="1"> 
+                  <el-row>
+                    
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useDao" label="dao" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useVo" label="vo" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useService" label="service" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useServiceApi" label="serviceApi" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useServiceView" label="serviceView" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useBll" label="Bll" border></el-checkbox>
+                    </el-form-item>
                   </el-row>
                 </el-collapse-item>
                 <el-collapse-item title="模板选择" name="2">
@@ -126,7 +180,7 @@
 
                     <el-row>
                       <el-form-item v-for="o in Object.keys(sysCodeTemplateTypeList)" :key="o" :label="o" prop="type">
-                        <el-select v-model="generatorParam.codeTemplateMap[o]" value-key="templateId" placeholder="请选择" style="width:100px;">
+                        <el-select v-model="generatorParam.codeTemplateMap[o]" value-key="templateId" placeholder="请选择" style="width:80px;">
                           <el-option
                             v-for="item in codeTemplataList[o]"
                             :key="item.templateId"
@@ -168,6 +222,9 @@
           <el-form-item label="链接数据库名" prop="type">
             <el-input v-model="temp.dbConnectDatabase" placeholder="链接数据库名" />
           </el-form-item>
+           <el-form-item label="模块名称" prop="type">
+          <el-input v-model="temp.moduleName" placeholder="模块名称" />
+        </el-form-item>
           <el-form-item label="链接数据库类型" prop="type">
             <el-select v-model="temp.dbConnectType" placeholder="请选择">
               <el-option
@@ -248,7 +305,7 @@ export default {
       tablesInfo: null,
       codeTemplataList: null,
       total: 0,
-      activeCollapseNames: ['1', '2'],
+      activeCollapseNames: ['1'],
       listQuery: {
         dbConnectCode: undefined,
         dbConnectUrl: undefined,
@@ -276,17 +333,29 @@ export default {
         dbConnectDatabase: undefined,
         createTime: undefined,
         createId: undefined,
+        moduleName:undefined,
         dbConnectType: undefined
       },
       generatorParam: {
         lombok: true,
+        vController: true,
+        extController: false,
+        innController: true,
+        useDao: true,
+        useVo: true,
+        useService: true,
+        useServiceApi: true,
+        useServiceView: false,
+        useServiceBll: false,
         tablesInfo: [],
         tables: [],
         packageName: 'com.kk',
         moduleName: 'xx',
         auth: 'kk',
         dbConnect: {},
-        codeTemplateMap: {}
+        codeTemplateMap: {},
+        customizeClass:'',
+        generateType:'1'
       },
       codeTemplateGroupTemp: undefined,
       codeTemplateGroupList: [],
@@ -341,6 +410,7 @@ export default {
       update(this.temp).then(response => {
         this.dialogFormVisible = false
         this.getPageList()
+        this.changeDbConnnetSelect(this.temp)
       })
     },
     addData() {
@@ -357,7 +427,7 @@ export default {
         this.$alert('请选择数据链接', '提示', {
           confirmButtonText: '确定',
           callback: action => {
-
+            
           }
         })
       }
@@ -392,7 +462,7 @@ export default {
     changeDbConnnetSelect(e) {
       this.generatorParam.dbConnect = e
       this.tablesInfoQuery.dbConnectCode = e.dbConnectCode
-      this.generatorParam.moduleName = e.dbConnectDatabase.replace(/_/g, '').toLowerCase()
+      this.generatorParam.moduleName = e.moduleName ===null  ? e.dbConnectDatabase.replace(/_/g, '').toLowerCase() : e.moduleName
     },
     handleSelectionTablesChange(val) {
       this.generatorParam.tablesInfo = val

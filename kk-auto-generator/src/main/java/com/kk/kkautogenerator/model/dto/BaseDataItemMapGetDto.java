@@ -1,15 +1,15 @@
 /*    */ package com.kk.kkautogenerator.model.dto;
 /*    */ 
-/*    */ import io.swagger.annotations.ApiModelProperty;
+/*    */ import io.swagger.v3.oas.annotations.media.Schema;
 /*    */ import java.io.Serializable;
 /*    */ import java.util.Map;
 /*    */ 
 /*    */ public class BaseDataItemMapGetDto
 /*    */   implements Serializable {
 /*    */   private static final long serialVersionUID = 1L;
-/*    */   @ApiModelProperty("返回处理结果")
+/*    */   @Schema(description ="返回处理结果")
 /*    */   private boolean value;
-/*    */   @ApiModelProperty("响应实体集合")
+/*    */   @Schema(description ="响应实体集合")
 /*    */   private Map<String, Map<String, Object>> queryTypeResult;
 /*    */   
 /*    */   public boolean isValue() {

@@ -39,18 +39,18 @@
         <trim prefix="where" prefixOverrides="and | or">
         <#list table.fields as field>
            <#if field.propertyName ?lower_case ?contains("name")>
-           <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">
+           <if test="${entity?uncap_first}ListReqVo.${field.propertyName} != null and ${entity?uncap_first}ListReqVo.${field.propertyName} != ''">
                and ${field.name} like concat('%',#${r"{"}${entity?uncap_first}ListVo.${field.propertyName}${r"}"},'%')
            </if>
            <#elseif field.propertyType == "Date" || field.propertyName ?lower_case?contains("date") >
-           <if test="${entity?uncap_first}ListVo.${field.propertyName}Start != null and ${entity?uncap_first}ListVo.${field.propertyName}Start != ''">
+           <if test="${entity?uncap_first}ListReqVo.${field.propertyName}Start != null and ${entity?uncap_first}ListReqVo.${field.propertyName}Start != ''">
                and ${field.name} >= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}Start${r"}"}
            </if>
-           <if test="${entity?uncap_first}ListVo.${field.propertyName}End != null and ${entity?uncap_first}ListVo.${field.propertyName}End != ''">
+           <if test="${entity?uncap_first}ListReqVo.${field.propertyName}End != null and ${entity?uncap_first}ListReqVo.${field.propertyName}End != ''">
                and ${field.name} &lt;= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}End${r"}"}
            </if>
            <#else>
-           <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">
+           <if test="${entity?uncap_first}ListReqVo.${field.propertyName} != null and ${entity?uncap_first}ListReqVo.${field.propertyName} != ''">
                and ${field.name} = #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}${r"}"}
            </if>
            </#if>
@@ -59,7 +59,7 @@
     </sql>
 
     <!-- 分页查询 -->
-    <select id="selectPageList" resultType="${package.Other}.dto.${entity}ListDto">
+    <select id="select${entity}PageList" resultType="${entityvoPackageName}.vobase.res.${entity}ListResVo">
         select <include refid="BaseColumnList"/>
         from ${table.name}
         <include refid="BaseWhere"/>

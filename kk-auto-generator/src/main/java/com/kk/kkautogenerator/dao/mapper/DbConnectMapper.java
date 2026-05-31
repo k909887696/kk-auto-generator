@@ -18,5 +18,5 @@ public interface DbConnectMapper extends RootMapper<DbConnect> {
      /**
      * 查询列表
      */
-     Page selectPageList(IPage page, DbConnectListVo dbConnectListVo);
+     Page<DbConnectListDto> selectPageList(IPage page, DbConnectListVo dbConnectListVo);
 }

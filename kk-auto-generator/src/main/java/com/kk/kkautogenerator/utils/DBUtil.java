@@ -21,6 +21,8 @@ public class DBUtil {
     public static final String sql2005driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     public static final String sql2000driver = "net.sourceforge.jtds.jdbc.Driver";
 
+    public static final String postgresql = "org.postgresql.Driver";
+
     public DBUtil(DatabaseType databaseType, String username, String password, String url) {
         this.databaseType = databaseType;
         this.username = username;
@@ -42,6 +44,10 @@ public class DBUtil {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             } else if (this.databaseType == DatabaseType.SQLSERVER) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            }else if(this.databaseType == DatabaseType.postgresql)
+            {
+                Class.forName("org.postgresql.Driver").newInstance();
+
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -86,7 +92,7 @@ public class DBUtil {
     }
 
     public enum DatabaseType {
-        MYSQL, ORACLE, SQLSERVER2000, SQLSERVER;
+        MYSQL, ORACLE, SQLSERVER2000, SQLSERVER,postgresql;
     }
 }
 

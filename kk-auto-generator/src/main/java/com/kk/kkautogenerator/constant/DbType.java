@@ -9,6 +9,7 @@ public class DbType {
     public static final String ORACLE = "oracle";
     public static final String SQLSERVER2000 = "sqlserver2000";
     public static final String SQLSERVER = "sqlserver";
+    public static final String postgresql = "postgresql";
     public static final Map<String, String> CODE_VALUE_MAP = new HashMap<>();
 
     static {
@@ -20,6 +21,7 @@ public class DbType {
         CODE_VALUE_MAP.put("sqlserver2000", "sqlserver2000");
 
         CODE_VALUE_MAP.put("sqlserver", "sqlserver");
+        CODE_VALUE_MAP.put("postgresql", "postgresql");
     }
 }
 
