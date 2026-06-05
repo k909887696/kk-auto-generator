@@ -65,7 +65,7 @@ public class DbInformationSchemaController {
     @Operation(summary = "生成代码")
     
     @PostMapping({"/generate_code"})
-    public ApiResult<GenerateCodeDto> generateCode(HttpServletResponse response, @Valid @RequestBody GenerateCodeVo vo) throws Exception {
+    public ApiResult<GenerateCodeDto> generateCode(HttpServletResponse response,  @RequestBody GenerateCodeVo vo) throws Exception {
         GenerateCodeDto res = this.dbInformationSchemaService.generateCode(vo);
 
 

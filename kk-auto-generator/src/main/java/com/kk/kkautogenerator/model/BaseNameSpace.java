@@ -39,6 +39,16 @@ public class BaseNameSpace {
      */
     private String businessModuleName;
 
+    /**
+     * View子模块名称，格式: view.{moduleName}
+     */
+    private String viewModuleName;
+
+    /**
+     * API模块登录接口前缀
+     */
+    private String apiPrefixLogin;
+
     // ==================== 各层包命名空间 ====================
 
     /**
@@ -89,6 +99,22 @@ public class BaseNameSpace {
      * Controller 内部类命名空间
      */
     private String controllerInnNameSpace;
+    /**
+     * Controller V类型命名前缀
+     */
+    private String controllerVNamePrefix;
+    /**
+     * Controller Ext类型命名前缀
+     */
+    private String controllerExtNamePrefix;
+    /**
+     * Controller Nl类型命名前缀
+     */
+    private String controllerNlNamePrefix;
+    /**
+     * Controller 内部类命名前缀
+     */
+    private String controllerInnNamePrefix;
     /**
      * MyBatis XML Mapper文件命名空间
      */
@@ -144,6 +170,9 @@ public class BaseNameSpace {
     private List<String> serviceViewImport;
     private List<String> modelImport;
     private List<String> baseImport;
+
+    private List<String> clientServiceImport;
+    private List<String> clientVoImport;
 
 
 }

@@ -11,10 +11,12 @@ import com.github.jeffreyning.mybatisplus.service.IMppService;
 import com.github.jeffreyning.mybatisplus.service.MppServiceImpl;
 import com.kk.common.base.model.BasePage;
 import com.kk.common.base.model.PageResult;
+import com.kk.common.constant.SystemKey;
 import com.kk.common.dao.mapper.RootMapper;
 
 import com.kk.common.exception.BusinessException;
 import com.kk.common.utils.DateUtil;
+import com.kk.common.utils.StringOperationUtil;
 import com.kk.common.web.model.ApiResult;
 import com.kk.kkautogenerator.config.SystemSettingConfig;
 import com.kk.kkautogenerator.constant.SysCodeTemplateType;
@@ -46,8 +48,9 @@ public class Generator {
         String apiModuleName = "api."+vo.getModuleName() ;
         String clientModuleName = "client."+vo.getModuleName() ;
         String businessModuleName = "business."+vo.getModuleName() ;
+        String viewModuleName = "view."+vo.getModuleName() ;
         String pathPrefix = "/src/main";
-
+        baseNameSpace.setApiPrefixLogin(SystemKey.ApiPrefixLogin);
         baseNameSpace.setMapperBaseClass(RootMapper.class.getSimpleName());
         baseNameSpace.setBasePage(BasePage.class.getSimpleName());
         baseNameSpace.setBasePageResult(PageResult.class.getSimpleName());
@@ -57,6 +60,7 @@ public class Generator {
         baseNameSpace.setApiModuleName(apiModuleName);
         baseNameSpace.setClientModuleName(clientModuleName);
         baseNameSpace.setBusinessModuleName(businessModuleName);
+        baseNameSpace.setViewModuleName(viewModuleName);
 
         baseNameSpace.setBllNameSpace("service.bll");
         baseNameSpace.setModelNameSpace("model");
@@ -70,18 +74,20 @@ public class Generator {
         baseNameSpace.setServiceApiNameSpace("serviceapi");
         baseNameSpace.setServiceViewNameSpace("serviceview");
         baseNameSpace.setXmlMapperNameSpace("xml");
-        baseNameSpace.setControllerVNameSpace("v");
-        baseNameSpace.setControllerExtNameSpace("ext");
-        baseNameSpace.setControllerNlNameSpace("nl");
-        baseNameSpace.setControllerInnNameSpace("inn");
+        baseNameSpace.setControllerVNameSpace("controller.v");
+        baseNameSpace.setControllerExtNameSpace("controller.ext");
+        baseNameSpace.setControllerNlNameSpace("controller.nl");
+        baseNameSpace.setControllerInnNameSpace("controller.inn");
+
+        baseNameSpace.setControllerNlNamePrefix("nl");
+        baseNameSpace.setControllerVNamePrefix("v");
+        baseNameSpace.setControllerExtNamePrefix("ext");
+        baseNameSpace.setControllerInnNamePrefix("inn");
 
         String parentApiPackageName = vo.getPackageName() + "." + apiModuleName;
         String parentClientPackageName = vo.getPackageName() + "." + clientModuleName;
         String parentBusinessPackageName = vo.getPackageName() + "." + businessModuleName;
-        /*String modelPackageName = parentApiPackageName + "."+baseNameSpace.getModelNameSpace();
-        String serviceApiPackageName = parentApiPackageName + "."+baseNameSpace.getServiceApiNameSpace();
-        String serviceViewPackageName = parentApiPackageName + "."+baseNameSpace.getServiceViewNameSpace();
-        String serviceBllPackageName = parentApiPackageName + "."+baseNameSpace.getBllNameSpace();*/
+
 
         baseNameSpace.setApiParentNameSpace(parentApiPackageName);
         baseNameSpace.setClientParentNameSpace(parentClientPackageName);
@@ -104,6 +110,10 @@ public class Generator {
                 ,"com.kk.business."+vo.getModuleName()+".constant.ServiceSystemKey"
                 ,"com.kk.common.constant.SystemKey"
         ));
+
+        baseNameSpace.setClientVoImport(List.of("java.io.Serializable","java.util.Date"));
+        baseNameSpace.setClientServiceImport(List.of("com.kk.common.constant.SystemKey"));
+
 
         return baseNameSpace;
     }
@@ -145,6 +155,10 @@ public class Generator {
         clientservicefeign = ((CodeTemplate) vo.getCodeTemplateList().get(SysCodeTemplateType.clientservicefeign)).getTemplateFileUrl();
         String bll = ((CodeTemplate) vo.getCodeTemplateList().get(SysCodeTemplateType.bll)).getTemplateFileUrl();
 
+        String viewListVue = ((CodeTemplate) vo.getCodeTemplateList().get(SysCodeTemplateType.viewListVue)).getTemplateFileUrl();
+        String viewListJs = ((CodeTemplate) vo.getCodeTemplateList().get(SysCodeTemplateType.viewListJs)).getTemplateFileUrl();
+        String viewRouter = ((CodeTemplate) vo.getCodeTemplateList().get(SysCodeTemplateType.viewRouter)).getTemplateFileUrl();
+
         BaseNameSpace baseNameSpace = initGeneratorParame(vo);
 
         String pathPrefix = "/src/main";
@@ -164,7 +178,7 @@ public class Generator {
         String parentApiPath = baseNameSpace.getApiModuleName() + pathPrefix + javaCodePathPrefix+ File.separator + baseNameSpace.getApiParentNameSpace().replace(".", File.separator) + File.separator;
         String parentClientPath = baseNameSpace.getClientModuleName() + pathPrefix + javaCodePathPrefix + File.separator + baseNameSpace.getClientParentNameSpace().replace(".", File.separator) + File.separator;
         String parentBusinessPath = baseNameSpace.getBusinessModuleName() + pathPrefix + javaCodePathPrefix + File.separator + baseNameSpace.getBusinessParentNameSpace().replace(".", File.separator) + File.separator;
-
+        String parentViewPath = baseNameSpace.getViewModuleName() + "/src"  + File.separator ;
 
         String rootPath = systemSettingConfig.getCustomCodeRootPath()
                 + DateUtil.date2String(new Date(), DateUtil.PATTERN_STANDARD08W) + "/"
@@ -173,8 +187,6 @@ public class Generator {
         FileUtil.createDir(new File(systemSettingConfig.getCustomCodeRootPath()));
         FileUtil.deleteFileAll(rootPath);
         FileUtil.createDir(new File(rootPath));
-
-
 
         FastAutoGenerator.create(vo.getDbConnect().getDbConnectUrl(), vo.getDbConnect().getDbConnectUser(), vo.getDbConnect().getDbConnectPassword())
                 .globalConfig(builder -> builder
@@ -264,7 +276,7 @@ public class Generator {
                         customFileMap.put(parentBusinessPath + baseNameSpace.getBllNameSpace().replace(".", File.separator) + File.separator + "%sBll.java", bll);
                     }
                     if (vo.getInnController()) {
-                        customFileMap.put(parentApiPath + "controller" + File.separator + baseNameSpace.getControllerInnNameSpace() + File.separator + "%sController.java", controllerInn);
+                        customFileMap.put(parentApiPath +  File.separator + baseNameSpace.getControllerInnNameSpace().replace(".", File.separator) + File.separator + StringOperationUtil.capFirst(baseNameSpace.getControllerInnNamePrefix()) + "%sController.java", controllerInn);
                         customFileMap.put(parentClientPath + baseNameSpace.getClientModelVoBaseNameSpace().replace(".", File.separator) + File.separator + "req" + File.separator + "%sAddReqVo.java", clientaddvo);
                         customFileMap.put(parentClientPath + baseNameSpace.getClientModelVoBaseNameSpace().replace(".", File.separator) + File.separator + "req" + File.separator + "%sListReqVo.java", clientlistvo);
                         customFileMap.put(parentClientPath + baseNameSpace.getClientModelVoBaseNameSpace().replace(".", File.separator) + File.separator + "req" + File.separator + "%sEditReqVo.java", clienteditvo);
@@ -275,12 +287,26 @@ public class Generator {
                         customFileMap.put(parentClientPath + baseNameSpace.getClientServiceNameSpace().replace(".", File.separator) + File.separator + "%sClientProxy.java", clientservicefeign);
                     }
                     if (vo.getExtController()) {
-                        customFileMap.put(parentApiPath + "controller" + File.separator + baseNameSpace.getControllerExtNameSpace() + File.separator + "%sController.java", controllerV);
+                        customFileMap.put(parentApiPath +  File.separator + baseNameSpace.getControllerExtNameSpace().replace(".", File.separator) + File.separator + StringOperationUtil.capFirst(baseNameSpace.getControllerExtNamePrefix()) + "%sController.java", controllerExt);
                     }
-                    if (vo.getVController()) {
-                        customFileMap.put(parentApiPath + "controller" + File.separator + baseNameSpace.getControllerVNameSpace() + File.separator + "%sController.java", controllerExt);
+                    if (vo.getViewController()) {
+                        customFileMap.put(parentApiPath +  File.separator + baseNameSpace.getControllerVNameSpace().replace(".", File.separator) + File.separator + StringOperationUtil.capFirst(baseNameSpace.getControllerVNamePrefix()) + "%sController.java", controllerV);
                     }
 
+                    //前端
+                    if(vo.getUseViewListVue())
+                    {
+                        customFileMap.put(parentViewPath + "/views" + File.separator + baseNameSpace.getModuleName() + File.separator + "%sList.vue", viewListVue);
+                    }
+                    if(vo.getUseViewListJs())
+                    {
+                        customFileMap.put(parentViewPath + "/api" + File.separator + baseNameSpace.getModuleName() + File.separator + "%sApi.js", viewListJs);
+                    }
+
+                    if(vo.getUseViewRouter())
+                    {
+                        customFileMap.put(baseNameSpace.getViewModuleName() +  File.separator + "%sRouter.js", viewRouter);
+                    }
 
 
                     builder.customMap(paramMap).customFile(customFileMap);
@@ -308,69 +334,26 @@ public class Generator {
             FileUtil.deleteFileAll(rootPath);
             FileUtil.createDir(new File(rootPath));
 
-            String apiModuleName = "api."+vo.getModuleName() ;
-            String businessModuleName = "business."+vo.getModuleName() ;
-            String clientModuleName = "client."+vo.getModuleName()  ;
+
+            BaseNameSpace baseNameSpace = initGeneratorParame(vo);
+
             String pathPrefix = "/src/main";
-            String parentApiPackageName = vo.getPackageName() + "." + apiModuleName;
-            String parentBusinessPackageName = vo.getPackageName() + "." + businessModuleName;
-            String parentClientPackageName = vo.getPackageName() + "." + clientModuleName;
-            String parentApiPath = rootPath + "/" + apiModuleName + pathPrefix + "/java/" + parentApiPackageName.replace(".", File.separator) + File.separator;
-            String parentClientPath = rootPath + "/" + clientModuleName + pathPrefix + "/java/" + parentClientPackageName.replace(".", File.separator) + File.separator;
-            String parentBusinessPath = rootPath + "/" + clientModuleName + pathPrefix + "/java/" + parentBusinessPackageName.replace(".", File.separator) + File.separator;
+            String javaCodePathPrefix = "/java/";
+            String resourcesPathPrefix = "/resources";
+
+
+
+            String parentApiPath = rootPath + "/" + baseNameSpace.getApiModuleName() + pathPrefix + javaCodePathPrefix + baseNameSpace.getApiParentNameSpace().replace(".", File.separator) + File.separator;
+            String parentClientPath = rootPath + "/" + baseNameSpace.getClientModuleName() + pathPrefix + javaCodePathPrefix + baseNameSpace.getClientParentNameSpace().replace(".", File.separator) + File.separator;
+            String parentBusinessPath = rootPath + "/" + baseNameSpace.getBusinessModuleName() + pathPrefix + javaCodePathPrefix + baseNameSpace.getBusinessParentNameSpace().replace(".", File.separator) + File.separator;
 
             Map<String, Object> baseParamMap = (vo.getCustomerParamMap() == null) ? new HashMap<>() : vo.getCustomerParamMap();
 
-            baseParamMap.put("parentApiPackageName", parentApiPackageName);
-            baseParamMap.put("parentClientPackageName", parentClientPackageName);
-            baseParamMap.put("parentBusinessPackageName", parentBusinessPackageName);
             baseParamMap.put("author", vo.getAuth());
             baseParamMap.put("date", DateUtil.date2String(new Date(), "yyyy-MM-dd"));
-            BaseNameSpace baseNameSpace = new BaseNameSpace();
-            String serviceNamespace = "service";
-            String serviceImplNamespace = "service.impl";
-            String modelNamespace = "model";
-            String serviceApiNamespace = "serviceapi";
-            String serviceViewNamespace = "serviceview";
-            baseParamMap.put("serviceApiNamespace", serviceApiNamespace);
-            baseParamMap.put("serviceViewNamespace", serviceViewNamespace);
-            baseParamMap.put("entityvoNamespace", modelNamespace);
-            baseParamMap.put("serviceNamespace", serviceNamespace);
-            baseParamMap.put("serviceImplNamespace", serviceImplNamespace);
-            baseParamMap.put("moduleName", apiModuleName);
-            // 设置基础名空间
-            baseNameSpace.setServiceNameSpace(serviceNamespace);
-            baseNameSpace.setModelNameSpace(modelNamespace);
-            baseNameSpace.setServiceApiNameSpace(serviceApiNamespace);
-            baseNameSpace.setServiceViewNameSpace(serviceViewNamespace);
-            baseNameSpace.setServiceImplNameSpace(serviceImplNamespace);
 
             baseParamMap.put("baseNameSpace", baseNameSpace);
-            // controller 自定以import
-            List<String> custControllerNamespace = new ArrayList<>();
-            custControllerNamespace.add("com.meiya.tihb.webapicode.model.BasePageApiTRspVo");
-            custControllerNamespace.add("com.meiya.tihb.webapicode.model.BaseApiTRspVo");
-            custControllerNamespace.add("com.meiya.tihb.webapicode.BaseWebApiFinal");
-            custControllerNamespace.add("com.meiya.tihb.annontation.BaseWebApiPermission");
-            custControllerNamespace.add("com.meiya.tihb.annontation.BaseWebApiGroupToken");
-            custControllerNamespace.add(parentClientPackageName + ".client.CustomClientFinal");
-            baseParamMap.put("custControllerNamespace", custControllerNamespace);
-            // client service 自定以import
-            List<String> customClientServiceFeignNamespace = new ArrayList<>();
-            customClientServiceFeignNamespace.add("com.meiya.tihb.webapicode.model.BasePageApiTRspVo");
-            customClientServiceFeignNamespace.add("com.meiya.tihb.webapicode.model.BaseApiTRspVo");
-            customClientServiceFeignNamespace.add("com.meiya.tihb.webapicode.BaseWebApiFinal");
-            customClientServiceFeignNamespace.add("com.meiya.tihb.nacos.config.BaseFeignMonitorLoggerConfig");
-            baseParamMap.put("customClientServiceFeignNamespace", customClientServiceFeignNamespace);
-            // impl 自定以import
-            List<String> customImplApiNamespace = new ArrayList<>();
-            customImplApiNamespace.add("com.meiya.tihb.webapicode.model.BasePageApiTReqVo");
-            customImplApiNamespace.add("com.meiya.tihb.webapicode.model.BasePageApiTRspVo");
-            customImplApiNamespace.add("com.meiya.tihb.third.BaseStringUtils");
-            customImplApiNamespace.add("com.meiya.tihb.third.BaseObjectUtils");
-            customImplApiNamespace.add("com.meiya.tihb.annontation.BaseTransactional");
-
-            baseParamMap.put("customImplApiNamespace", customImplApiNamespace);
+            baseParamMap.put("rootOutputFilePath", rootPath);
             enhanceFreemarkerTemplateEngine.init(null);
             classMethodMap.forEach((className, customizeClassInfo) -> {
                 String classNameUp = capitalizeFirstLetter(className);
@@ -385,39 +368,39 @@ public class Generator {
                 objectMap.put("methods", customizeClassInfo.getMethods());
                 List<CustomFile> customFile = new ArrayList<>();
                 if (vo.getUseService()) {
-                    String serviceFileName = parentApiPath + serviceNamespace.replace(".", File.separator) + File.separator + "I%sService" + ".java";
-                    String serviceImplFileName = parentApiPath + serviceImplNamespace.replace(".", File.separator) + File.separator + "%sServiceImpl" + ".java";
+                    String serviceFileName = parentApiPath + baseNameSpace.getServiceNameSpace().replace(".", File.separator) + File.separator + "I%sService" + ".java";
+                    String serviceImplFileName = parentApiPath + baseNameSpace.getServiceImplNameSpace().replace(".", File.separator) + File.separator + "%sServiceImpl" + ".java";
                     customFile.add((new CustomFile.Builder()).fileName(serviceFileName).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeService).getTemplateFileUrl()).build());
                     customFile.add((new CustomFile.Builder()).fileName(serviceImplFileName).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeServiceImpl).getTemplateFileUrl()).build());
 
                 }
                 if (vo.getUseServiceApi()) {
-                    String serviceApiFileName = parentApiPath + serviceApiNamespace.replace(".", File.separator) + File.separator + "%sServiceApi.java";
+                    String serviceApiFileName = parentApiPath + baseNameSpace.getServiceApiNameSpace().replace(".", File.separator) + File.separator + "%sServiceApi.java";
                     customFile.add((new CustomFile.Builder()).fileName(serviceApiFileName)
                             .templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeServiceImplApi).getTemplateFileUrl()).build());
 
                 }
                 if (vo.getUseServiceView()) {
-                    String serviceViewFileName = parentApiPath + serviceViewNamespace.replace(".", File.separator) + File.separator + "%sServiceView.java";
+                    String serviceViewFileName = parentApiPath + baseNameSpace.getServiceViewNameSpace().replace(".", File.separator) + File.separator + "%sServiceView.java";
                     customFile.add((new CustomFile.Builder()).fileName(serviceViewFileName).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeServiceImplView).getTemplateFileUrl()).build());
                 }
                 if (vo.getUseServiceBll()) {
-                    String bllFileName = parentApiPath + "service.bll".replace(".", File.separator) + File.separator + "%sBll.java";
+                    String bllFileName = parentApiPath + baseNameSpace.getBllNameSpace().replace(".", File.separator) + File.separator + "%sBll.java";
                     customFile.add((new CustomFile.Builder()).fileName(bllFileName).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeBll).getTemplateFileUrl()).build());
                 }
                 if (vo.getInnController()) {
-                    String intraControllerFileName = parentApiPath + "controller.intra".replace(".", File.separator) + File.separator + "Intra%sController.java";
-                    String customizeClientservicefeignFileName = parentClientPath + "client".replace(".", File.separator) + File.separator + "%sClientProxy.java";
+                    String intraControllerFileName = parentApiPath + baseNameSpace.getControllerInnNameSpace().replace(".", File.separator) + File.separator +StringOperationUtil.capFirst(baseNameSpace.getControllerInnNamePrefix()) + "%sController.java";
+                    String customizeClientservicefeignFileName = parentClientPath + baseNameSpace.getClientServiceNameSpace().replace(".", File.separator) + File.separator + "%sClientProxy.java";
                     customFile.add((new CustomFile.Builder()).fileName(String.format(customizeClientservicefeignFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeClientservicefeign).getTemplateFileUrl()).build());
-                    customFile.add((new CustomFile.Builder()).fileName(String.format(intraControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerIntra).getTemplateFileUrl()).build());
+                    customFile.add((new CustomFile.Builder()).fileName(String.format(intraControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerInn).getTemplateFileUrl()).build());
                 }
-                if (vo.getVController()) {
-                    String groupControllerFileName = parentApiPath + "controller.group".replace(".", File.separator) + File.separator + "Group%sController.java";
-                    customFile.add((new CustomFile.Builder()).fileName(String.format(groupControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerGroup).getTemplateFileUrl()).build());
+                if (vo.getViewController()) {
+                    String groupControllerFileName = parentApiPath + baseNameSpace.getControllerVNameSpace().replace(".", File.separator) + File.separator + StringOperationUtil.capFirst(baseNameSpace.getControllerVNamePrefix()) + "%sController.java";
+                    customFile.add((new CustomFile.Builder()).fileName(String.format(groupControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerV).getTemplateFileUrl()).build());
                 }
                 if (vo.getExtController()) {
-                    String incControllerFileName = parentApiPath + "controller.inc".replace(".", File.separator) + File.separator + "Inc%sController.java";
-                    customFile.add((new CustomFile.Builder()).fileName(String.format(incControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerInc).getTemplateFileUrl()).build());
+                    String incControllerFileName = parentApiPath + baseNameSpace.getControllerExtNameSpace().replace(".", File.separator) + File.separator + StringOperationUtil.capFirst(baseNameSpace.getControllerExtNamePrefix()) + "%sController.java";
+                    customFile.add((new CustomFile.Builder()).fileName(String.format(incControllerFileName, classNameUp)).templatePath(vo.getCodeTemplateList().get(SysCodeTemplateType.customizeControllerExt).getTemplateFileUrl()).build());
                 }
 
                 if (customFile.size() > 0) {
@@ -433,10 +416,10 @@ public class Generator {
                     for (CustomizeInfo customizeInfo : customizeClassInfo.getMethods()) {
                         objectMap.put("methodName", customizeInfo.getName());
                         objectMap.put("methodComment", customizeInfo.getComment());
-                        String methodReqVoFileName = parentApiPath + modelNamespace.replace(".", File.separator) + "/vobase/req" + File.separator + capitalizeFirstLetter(customizeInfo.getName()) + "ReqVo.java";
-                        String methodResVoFileName = parentApiPath + modelNamespace.replace(".", File.separator) + "/vobase/res" + File.separator + capitalizeFirstLetter(customizeInfo.getName()) + "ResVo.java";
-                        String clientMethodReqVoFileName = parentClientPath + "/vointra/req" + File.separator + "%sReqVo.java";
-                        String clientMethodResVoFileName = parentClientPath + "/vointra/res" + File.separator + "%sResVo.java";
+                        String methodReqVoFileName = parentApiPath + baseNameSpace.getControllerVNameSpace().replace(".", File.separator) + "/req" + File.separator + capitalizeFirstLetter(customizeInfo.getName()) + "ReqVo.java";
+                        String methodResVoFileName = parentApiPath + baseNameSpace.getControllerVNameSpace().replace(".", File.separator) + "/res" + File.separator + capitalizeFirstLetter(customizeInfo.getName()) + "ResVo.java";
+                        String clientMethodReqVoFileName = parentClientPath + baseNameSpace.getClientModelVoBaseNameSpace().replace(".", File.separator)+ "/req" + File.separator + "%sReqVo.java";
+                        String clientMethodResVoFileName = parentClientPath + baseNameSpace.getClientModelVoBaseNameSpace() + "/res" + File.separator + "%sResVo.java";
 
                         List<CustomFile> customMethodFile = new ArrayList<>();
                         if (vo.getUseVo()) {

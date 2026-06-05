@@ -1,4 +1,4 @@
-package ${package.Controller}.${baseNameSpace.controllerVNameSpace};
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.controllerInnNameSpace};
 
 
 import org.springframework.web.bind.annotation.*;
@@ -27,24 +27,24 @@ import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameS
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}DeleteReqVo;
 /**
  * <p>
- * ${table.comment!} 接口
+ * ${table.comment!} 内部接口
  * </p>
  *
  * @author ${author}
  * @since ${date}
  */
 <#if swagger>
-@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixInn + "/v1/${entity}",description = "${table.comment!}(接口)")
+@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixInn + "/v1/${baseNameSpace.controllerInnNamePrefix?cap_first}${entity}",description = "${table.comment!}(内部接口)")
 </#if>
 @RestController
-@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixInn + "/v1/${entity}")
+@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixInn + "/v1/${baseNameSpace.controllerInnNamePrefix?cap_first}${entity}")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
-public class ${entity}Controller {
+public class ${baseNameSpace.controllerInnNamePrefix?cap_first}${entity}Controller {
 </#if>
 
     @Resource

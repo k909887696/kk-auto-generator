@@ -80,7 +80,7 @@ public class ${entity}Bll   {
     * @param vo 请求参数
     * @return 结果集
     */
-    public {baseNameSpace.basePageResult}<${entity}ListResVo>  select${entity}PageList(${entity}ListReqVo vo){
+    public ${baseNameSpace.basePageResult}<${entity}ListResVo>  select${entity}PageList(${entity}ListReqVo vo){
         return ${entity?uncap_first}Service.select${entity}PageList(vo);
     }
 

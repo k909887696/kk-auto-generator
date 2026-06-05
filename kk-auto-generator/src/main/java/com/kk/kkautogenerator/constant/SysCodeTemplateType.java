@@ -19,7 +19,7 @@ public class SysCodeTemplateType {
 
     public static final String serviceImplView = "serviceImplView";
 
-    public static final String bll = "bll";
+    public static final String bll = "serviceBll";
 
     // ==================== Controller 层 ====================
     public static final String controller = "controller";
@@ -57,11 +57,11 @@ public class SysCodeTemplateType {
     public static final String customizeServiceImplView = "customizeServiceImplView";
     public static final String customizeReqVo = "customizeReqVo";
     public static final String customizeResVo = "customizeResVo";
-    public static final String customizeControllerIntra = "customizeControllerIntra";
+    public static final String customizeControllerInn = "customizeControllerInn";
 
     public static final String customizeControllerIntraDispatch = "customizeControllerIntraDispatch";
-    public static final String customizeControllerGroup = "customizeControllerGroup";
-    public static final String customizeControllerInc = "customizeControllerInc";
+    public static final String customizeControllerV = "customizeControllerV";
+    public static final String customizeControllerExt = "customizeControllerExt";
     public static final String customizeControllerPlatform = "customizeControllerPlatform";
     public static final String customizeControllerSupplier = "customizeControllerSupplier";
     public static final String customizeControllerTmc = "customizeControllerTmc";
@@ -70,6 +70,11 @@ public class SysCodeTemplateType {
     public static final String customizeClientResVo = "customizeClientResVo";
     public static final String customizeClientservicefeign = "customizeClientservicefeign";
     public static final String customizeBll = "customizeBll";
+
+    //===================== view 前端 ================
+    public static final String viewListVue = "viewListVue";
+    public static final String viewListJs = "viewListJs";
+    public static final String viewRouter = "viewRouter";
 
 
     public static final LinkedHashMap<String, Integer> CODE_VALUE_MAP = new LinkedHashMap<>();
@@ -121,10 +126,10 @@ public class SysCodeTemplateType {
         CODE_VALUE_MAP.put(customizeServiceImplView, -33);
         CODE_VALUE_MAP.put(customizeReqVo, -34);
         CODE_VALUE_MAP.put(customizeResVo, -35);
-        CODE_VALUE_MAP.put(customizeControllerIntra, -36);
+        CODE_VALUE_MAP.put(customizeControllerV, -36);
         CODE_VALUE_MAP.put(customizeControllerIntraDispatch, -37);
-        CODE_VALUE_MAP.put(customizeControllerGroup, -38);
-        CODE_VALUE_MAP.put(customizeControllerInc, -39);
+        CODE_VALUE_MAP.put(customizeControllerExt, -38);
+        CODE_VALUE_MAP.put(customizeControllerInn, -39);
         CODE_VALUE_MAP.put(customizeControllerPlatform, -40);
         CODE_VALUE_MAP.put(customizeControllerSupplier, -41);
         CODE_VALUE_MAP.put(customizeControllerTmc, -42);
@@ -133,5 +138,8 @@ public class SysCodeTemplateType {
         CODE_VALUE_MAP.put(customizeClientservicefeign, -45);
         CODE_VALUE_MAP.put(customizeBll, -46);
         CODE_VALUE_MAP.put(bll, -47);
+        CODE_VALUE_MAP.put(viewListVue, -48);
+        CODE_VALUE_MAP.put(viewListJs, -49);
+        CODE_VALUE_MAP.put(viewRouter, -50);
     }
 }

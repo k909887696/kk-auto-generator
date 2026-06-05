@@ -125,7 +125,7 @@
                   <el-row>
                     
                     <el-form-item label="" prop="type"  >
-                      <el-checkbox v-model="generatorParam.vController" label="vController" border></el-checkbox>
+                      <el-checkbox v-model="generatorParam.viewController" label="vController" border></el-checkbox>
                     </el-form-item>
                     <el-form-item label="" prop="type"  >
                       <el-checkbox v-model="generatorParam.extController" label="extController" border></el-checkbox>
@@ -135,7 +135,7 @@
                     </el-form-item>
                   </el-row>
                 </el-collapse-item>
-                   <el-collapse-item title="分层生成" name="1"> 
+                   <el-collapse-item title="分层" name="1"> 
                   <el-row>
                     
                     <el-form-item label="" prop="type"  >
@@ -154,7 +154,22 @@
                       <el-checkbox v-model="generatorParam.useServiceView" label="serviceView" border></el-checkbox>
                     </el-form-item>
                     <el-form-item label="" prop="type"  >
-                      <el-checkbox v-model="generatorParam.useBll" label="Bll" border></el-checkbox>
+                      <el-checkbox v-model="generatorParam.useServiceBll" label="serviceBll" border></el-checkbox>
+                    </el-form-item>
+                  </el-row>
+                </el-collapse-item>
+                </el-collapse-item>
+                   <el-collapse-item title="前端" name="1"> 
+                  <el-row>
+                    
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useViewListVue" label="viewListVue" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useViewListJs" label="viewListJs" border></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="type"  >
+                      <el-checkbox v-model="generatorParam.useViewRouter" label="viewRouter" border></el-checkbox>
                     </el-form-item>
                   </el-row>
                 </el-collapse-item>
@@ -338,7 +353,7 @@ export default {
       },
       generatorParam: {
         lombok: true,
-        vController: true,
+        viewController: true,
         extController: false,
         innController: true,
         useDao: true,
@@ -347,6 +362,9 @@ export default {
         useServiceApi: true,
         useServiceView: false,
         useServiceBll: false,
+        useViewListVue: false,
+        useViewListJs: false,
+        useViewRouter: false,
         tablesInfo: [],
         tables: [],
         packageName: 'com.kk',

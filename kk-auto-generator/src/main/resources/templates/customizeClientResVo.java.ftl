@@ -1,4 +1,4 @@
-package ${parentClientPackageName}.vointra.res;
+package ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.res;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

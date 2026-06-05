@@ -1,16 +1,16 @@
-package ${parentApiPackageName}.serviceapi;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceApiNameSpace};
 
 import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import java.util.List;
-<#list customImplApiNamespace as imp>
+<#list baseNameSpace.serviceApiImport as imp>
 import ${imp};
 </#list>
 <#list methods! as imp>
-import ${parentApiPackageName}.entityvo.vobase.req.${imp.name}ReqVo;
-import ${parentApiPackageName}.entityvo.vobase.res.${imp.name}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${imp.name}ReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${imp.name}ResVo;
 </#list>
-import ${parentApiPackageName}.service.intf.${serviceName};
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceNameSpace}.${serviceName};
 /**
 * <p>
     * ${classComment!} 服务实现类
@@ -20,7 +20,7 @@ import ${parentApiPackageName}.service.intf.${serviceName};
 * @since ${date}
 */
 @Service
-public class ${serviceApiName} implements ${serviceName} {
+public class ${serviceApiName}  {
 
     @Resource
     public ${serviceName} ${entity?uncap_first}Service;
@@ -31,7 +31,6 @@ public class ${serviceApiName} implements ${serviceName} {
     * @param ${imp.name?uncap_first}ReqVo
     * @return
     */
-    @Override
     @BaseTransactional
     public ${imp.name}ResVo ${imp.name?uncap_first}(${imp.name}ReqVo ${imp.name?uncap_first}ReqVo)
     {

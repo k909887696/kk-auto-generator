@@ -1,11 +1,11 @@
-package ${parentApiPackageName}.service.intf;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceNameSpace};
 
 import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import java.util.List;
 <#list methods! as imp>
-import ${parentApiPackageName}.entityvo.vobase.req.${imp.name}ReqVo;
-import ${parentApiPackageName}.entityvo.vobase.res.${imp.name}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${imp.name}ReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${imp.name}ResVo;
 </#list>
 
 /**

@@ -1,13 +1,13 @@
-package ${parentApiPackageName}.service.bll;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.bllNameSpace};
 
 import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import java.util.List;
 <#list methods! as imp>
-import ${parentApiPackageName}.entityvo.vobase.req.${imp.name}ReqVo;
-import ${parentApiPackageName}.entityvo.vobase.res.${imp.name}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${imp.name}ReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${imp.name}ResVo;
 </#list>
-import ${parentApiPackageName}.service.intf.${serviceName};
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceNameSpace}.${serviceName};
 /**
 * <p>
     * ${classComment!} 业务处理类

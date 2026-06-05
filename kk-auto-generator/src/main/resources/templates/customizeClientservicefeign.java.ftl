@@ -1,4 +1,4 @@
-package ${parentClientPackageName}.client;
+package ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientServiceNameSpace};
 
 
 import java.util.List;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 <#list methods! as imp>
-import ${parentClientPackageName}.vointra.req.${imp.name}ReqVo;
-import ${parentClientPackageName}.vointra.res.${imp.name}ResVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${imp.name}ReqVo;
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.res.${imp.name}ResVo;
 </#list>
-<#list customClientServiceFeignNamespace as imp>
+<#list baseNameSpace.clientServiceImport as imp>
 import ${imp};
 </#list>
 /**
@@ -24,7 +24,7 @@ import ${imp};
  * @since ${date}
  */
 @Component
-@FeignClient(name = "${r'${'}customClient.${moduleName}${r'}'}", configuration = BaseFeignMonitorLoggerConfig.class, contextId = "meiya-core-feign-${entity}")
+@FeignClient(name = "${r'${'}customClient.${moduleName}${r'}'}", configuration = BaseFeignMonitorLoggerConfig.class, contextId = "kk-core-feign-${entity}")
 public interface ${entity}ClientProxy  {
 
 <#list methods! as imp>
@@ -33,7 +33,7 @@ public interface ${entity}ClientProxy  {
         * @param vo
         * @return
         */
-        @PostMapping(value = BaseWebApiFinal.PathInternalApi + CustomClientFinal.CustomSystemPath + "/Intra${entity}/${imp.name}")
+        @PostMapping(value = BaseWebApiFinal.PathInternalApi + CustomClientFinal.CustomSystemPath + "/${entity}/${imp.name}")
         ${imp.name}ResVo ${imp.name?uncap_first}(@RequestBody ${imp.name}ReqVo vo);
 </#list>
 

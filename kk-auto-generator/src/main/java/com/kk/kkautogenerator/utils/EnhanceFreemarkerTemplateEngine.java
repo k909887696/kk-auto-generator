@@ -139,11 +139,6 @@ public class EnhanceFreemarkerTemplateEngine extends AbstractTemplateEngine {
             objectMap.put(var, otherPath + "." + var + "." + entityName + it);
         });
 
-        objectMap.put("commonConverter", "com.zhanghp.common.converter.CommonConverter");
-        objectMap.put("converterUtil", "com.zhanghp.common.converter.utils.ConverterUtil");
-        objectMap.put("pageParent", "com.zhanghp.common.model.PageParent");
-        objectMap.put("objectUtils", "com.zhanghp.common.utils.ObjectUtils");
-        objectMap.put("r", "com.zhanghp.common.response.R");
 
         int multiIdCount = 0;
         for (TableField field : tableInfo.getFields()) {

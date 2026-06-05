@@ -31,7 +31,7 @@ public class GenerateCodeVo {
     /**
      * 是否使用vController
      */
-    private Boolean vController;
+    private Boolean viewController;
     /**
      * 是否使用extController
      */
@@ -97,5 +97,21 @@ public class GenerateCodeVo {
      * 生成类型（1：数据源，2：自定义）
      */
     private String generateType;
+
+    /**
+     * 是否使用ViewListVue
+     */
+    private Boolean useViewListVue;
+
+    /**
+     * 是否使用ViewListJs
+     */
+    private Boolean useViewListJs;
+    /**
+     * 是否使用ViewRouter
+     */
+    private Boolean useViewRouter;
+
+
 }
 

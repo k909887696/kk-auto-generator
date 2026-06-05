@@ -125,8 +125,8 @@
 </template>
 
 <script>
-// import { get_base_data_item_map } from '@/api/${package.ModuleName}/settings'
-import { get_${table.name}_page_list, deleteById, insert, update, get_details } from '@/api/${package.ModuleName}/${table.name}_api'
+// import { get_base_data_item_map } from '@/api/${baseNameSpace.moduleName}/settings'
+import { get${entity}PageList, delete${entity}ById, insert${entity}, update${entity}, get${entity}Details } from '@/api/${baseNameSpace.moduleName}/${entity}Api'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { parseTime, renderHeaderTip } from '@/utils/index.js'
 import waves from '@/directive/waves' // waves directive
@@ -168,7 +168,7 @@ export default {
   },
   methods: {
       getPageList() { // 查询列表分页
-          get_${table.name}_page_list(this.listQuery).then(response => {
+          get${entity}PageList(this.listQuery).then(response => {
               this.list = response.data === null ? [] : response.data.result
               this.total = response.data === null ? 0 : response.data.totalCount
           })
@@ -179,7 +179,7 @@ export default {
               cancelButtonText: '取消',
               type: 'warning'
           }).then(() => {
-              deleteById(row).then(response => {
+              delete${entity}ById(row).then(response => {
                   this.dialogFormVisible = false
                   this.getPageList()
               })
@@ -196,7 +196,7 @@ export default {
           this.temp.${field.propertyName} = new Date(this.temp.${field.propertyName})
           </#if>
           </#list>
-          update(this.temp).then(response => {
+          update${entity}(this.temp).then(response => {
               this.dialogFormVisible = false
               this.getPageList()
           })
@@ -207,14 +207,14 @@ export default {
           this.temp.${field.propertyName} = new Date(this.temp.${field.propertyName})
           </#if>
           </#list>
-          insert(this.temp).then(response => {
+          insert${entity}(this.temp).then(response => {
               this.dialogFormVisible = false
               this.getPageList()
           })
       },
       editDataDialog(row) {
           this.dialogStatus = 'update'
-          get_details(row).then(response => {
+          get${entity}Details(row).then(response => {
               this.temp = Object.assign({}, response.data === null ? row : response.data) // copy obj
               <#list table.fields as field>
               <#if field.propertyType?lower_case == "date">

@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
+import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceApiNameSpace}.${entity}ServiceApi;
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}ListReqVo;
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ListResVo;
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}AddReqVo;
@@ -33,7 +34,7 @@ open class ${table.serviceName} : ${superServiceImplClass}<${table.mapperName}, 
 public class ${entity}ServiceView   {
 
     @Resource
-    public ${table.serviceName} ${entity?uncap_first}ServiceApi;
+    public ${entity}ServiceApi ${entity?uncap_first}ServiceApi;
 
 
 

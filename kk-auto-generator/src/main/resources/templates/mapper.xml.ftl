@@ -59,7 +59,7 @@
     </sql>
 
     <!-- 分页查询 -->
-    <select id="select${entity}PageList" resultType="${entityvoPackageName}.vobase.res.${entity}ListResVo">
+    <select id="select${entity}PageList" resultType="${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.res.${entity}ListResVo">
         select <include refid="BaseColumnList"/>
         from ${table.name}
         <include refid="BaseWhere"/>

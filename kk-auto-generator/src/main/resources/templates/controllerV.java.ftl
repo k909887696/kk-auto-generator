@@ -1,4 +1,4 @@
-package ${package.Controller}.${baseNameSpace.controllerVNameSpace};
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.controllerVNameSpace};
 
 
 import org.springframework.web.bind.annotation.*;
@@ -34,17 +34,17 @@ import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameS
  * @since ${date}
  */
 <#if swagger>
-@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixLogin + "/v1/${entity}",description = "${table.comment!}(接口)")
+@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixLogin + "/v1/${baseNameSpace.controllerVNamePrefix?cap_first}${entity}",description = "${table.comment!}(接口)")
 </#if>
 @RestController
-@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixLogin + "/v1/${entity}")
+@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixLogin + "/v1/${baseNameSpace.controllerVNamePrefix?cap_first}${entity}")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
-public class ${entity}Controller {
+public class ${baseNameSpace.controllerVNamePrefix?cap_first}${entity}Controller {
 </#if>
 
     @Resource

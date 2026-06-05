@@ -54,17 +54,20 @@ public class SysCodeTemplateType4Suffix {
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeServiceImplView, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeReqVo, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeResVo, "java");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntra, "java");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerGroup, "java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerInn, "java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerV, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerSupplier, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerPlatform, "java");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerInc, "java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerExt, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerTmc, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntraDispatch, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientReqVo, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientResVo, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientservicefeign, "java");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeBll, "java");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewListVue, "vue");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewListJs, "js");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewRouter, "js");
     }
 }
 

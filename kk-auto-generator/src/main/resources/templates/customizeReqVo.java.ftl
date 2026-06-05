@@ -1,4 +1,4 @@
-package ${parentApiPackageName}.entityvo.vobase.req;
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

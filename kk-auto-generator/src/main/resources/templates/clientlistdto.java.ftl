@@ -1,6 +1,6 @@
-package ${customClientPackageName}.vointra.res;
+package ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.res;
 
-<#list customClientEntityNamespace as pkg>
+<#list baseNameSpace.clientVoImport as pkg>
 import ${pkg};
 </#list>
 <#if swagger>

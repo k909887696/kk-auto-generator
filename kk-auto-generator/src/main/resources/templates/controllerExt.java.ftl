@@ -1,4 +1,4 @@
-package ${package.Controller}.${baseNameSpace.controllerExtNameSpace};
+package ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.controllerExtNameSpace};
 
 
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.serviceApiNameSpace}.${entity}ServiceApi;
-<#list baseNameSpace.controllerExtImport as imp>
+<#list baseNameSpace.controllerVImport as imp>
 import ${imp};
 </#list>
 import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameSpace}.req.${entity}ListReqVo;
@@ -34,17 +34,17 @@ import ${baseNameSpace.businessParentNameSpace}.${baseNameSpace.modelVoBaseNameS
  * @since ${date}
  */
 <#if swagger>
-@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixSign + "/v1/${entity}",description = "${table.comment!}(外部接口-签名认证)")
+@Tag(name = "/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixSign + "/v1/${baseNameSpace.controllerExtNamePrefix?cap_first}${entity}",description = "${table.comment!}(外部接口-签名认证)")
 </#if>
 @RestController
-@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixSign + "/v1/${entity}")
+@RequestMapping("/"+ ServiceSystemKey.ServiceName+"/"+SystemKey.ApiPrefixSign + "/v1/${baseNameSpace.controllerExtNamePrefix?cap_first}${entity}")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
-public class ${entity}Controller {
+public class ${baseNameSpace.controllerExtNamePrefix?cap_first}${entity}Controller {
 </#if>
 
     @Resource

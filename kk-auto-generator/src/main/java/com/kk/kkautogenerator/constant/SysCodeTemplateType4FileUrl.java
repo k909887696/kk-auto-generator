@@ -30,9 +30,10 @@ public class SysCodeTemplateType4FileUrl {
         CODE_VALUE_MAP.put(SysCodeTemplateType.dto, "/templates/dto.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.listdto, "/templates/listdto.java.ftl");
 
-        //CODE_VALUE_MAP.put(SysCodeTemplateType.listview_vue, "/templates/listview.vue.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewListVue, "/templates/viewListVue.vue.ftl");
 
-       // CODE_VALUE_MAP.put(SysCodeTemplateType., "/templates/router.js.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewListJs, "/templates/viewListJs.js.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.viewRouter, "/templates/viewRouter.js.ftl");
 
         CODE_VALUE_MAP.put(SysCodeTemplateType.serviceImplApi, "/templates/serviceImplApi.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.serviceImplView, "/templates/serviceImplView.java.ftl");
@@ -56,9 +57,9 @@ public class SysCodeTemplateType4FileUrl {
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeServiceImplView, "/templates/customizeServiceImplView.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeReqVo, "/templates/customizeReqVo.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeResVo, "/templates/customizeResVo.java.ftl");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntra, "/templates/customizeControllerIntra.java.ftl");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerGroup, "/templates/customizeControllerGroup.java.ftl");
-        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerInc, "/templates/customizeControllerInc.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerInn, "/templates/customizeControllerInn.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerExt, "/templates/customizeControllerExt.java.ftl");
+        CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerV, "/templates/customizeControllerV.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerPlatform, "/templates/customizeControllerPlatform.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerSupplier, "/templates/customizeControllerSupplier.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeControllerIntraDispatch, "/templates/customizeControllerIntradispatch.java.ftl");
@@ -67,6 +68,8 @@ public class SysCodeTemplateType4FileUrl {
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientResVo, "/templates/customizeClientResVo.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeClientservicefeign, "/templates/customizeClientservicefeign.java.ftl");
         CODE_VALUE_MAP.put(SysCodeTemplateType.customizeBll, "/templates/customizeBll.java.ftl");
+
+
 
 
     }

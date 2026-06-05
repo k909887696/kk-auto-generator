@@ -1,4 +1,4 @@
-package ${customClientPackageName}.client;
+package ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientServiceNameSpace};
 
 
 import java.util.List;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import ${customClientPackageName}.vointra.req.${entity}ListReqVo;
-import ${customClientPackageName}.vointra.res.${entity}ListResVo;
-import ${customClientPackageName}.vointra.req.${entity}AddReqVo;
-import ${customClientPackageName}.vointra.req.${entity}EditReqVo;
-import ${customClientPackageName}.vointra.res.${entity}ResVo;
-import ${customClientPackageName}.vointra.req.${entity}DetailsReqVo;
-import ${customClientPackageName}.vointra.req.${entity}DeleteReqVo;
-<#list customClientServiceFeignNamespace as imp>
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${entity}ListReqVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.res.${entity}ListResVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${entity}AddReqVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${entity}EditReqVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.res.${entity}ResVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${entity}DetailsReqVo;
+import ${baseNameSpace.clientParentNameSpace}.${baseNameSpace.clientModelVoBaseNameSpace}.req.${entity}DeleteReqVo;
+<#list baseNameSpace.clientServiceImport as imp>
 import ${imp};
 </#list>
 /**

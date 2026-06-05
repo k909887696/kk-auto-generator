@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.kk</groupId>
             <artifactId>kk-common</artifactId>
-            <version>1.21.1</version>
+            <version>1.21.1.SNAPSHOT</version>
 
         </dependency>
         <dependency>

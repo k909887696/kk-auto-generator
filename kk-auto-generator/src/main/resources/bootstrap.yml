@@ -104,6 +104,7 @@ mybatis-plus:
 custom-web-mvc-config:
   #参数拦截器 记录请求参数
   intercepter-parameter-pattern: /**
+  interceptor-login-pattern: /xx/**
 
 # Swagger相关配置
 springfox:
