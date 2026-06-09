@@ -143,21 +143,21 @@ export default {
           list: null,
           total: 0,
           listQuery: {
-              <#list table.fields as field>
-              <#if field.propertyType?lower_case == "date" || field.propertyName ?lower_case?contains("date") >
-              ${field.propertyName}Start: undefined,
-              ${field.propertyName}End: undefined,
-      <#else >
-      ${field.propertyName}: undefined,
-          </#if>
-          </#list>
-          pageIndex: 1,
-          pageSize: 10
+            <#list table.fields as field>
+            <#if field.propertyType?lower_case == "date" || field.propertyName ?lower_case?contains("date") >
+            ${field.propertyName}Start: undefined,
+            ${field.propertyName}End: undefined,
+            <#else >
+            ${field.propertyName}: undefined,
+            </#if>
+            </#list>
+            pageIndex: 1,
+            pageSize: 10
   },
       dialogFormVisible: false,
           temp: {
           <#list table.fields as field>
-          ${field.propertyName}: undefined<#if field_has_next>,</#if>
+            ${field.propertyName}: undefined<#if field_has_next>,</#if>
           </#list>
       },
       dialogStatus: 'insert'
