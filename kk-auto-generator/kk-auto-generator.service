@@ -1,0 +1,27 @@
+[Unit]
+Description={serviceName}.service
+After=network.target
+
+[Service]
+User=sysadmin
+WorkingDirectory=/application/{serviceName}
+
+
+Environment="JAVA_HOME=/application/java/jdk-21.0.11+10"
+Environment="PATH=/application/java/jdk-21.0.11+10/bin:/usr/local/bin:/usr/bin:/bin"
+
+
+ExecStart=/application/java/jdk-21.0.11+10/bin/java -Xms512m -Xmx2048m -jar /application/{serviceName}/{serviceName}-1.0-SNAPSHOT.jar --spring.cloud.nacos.config.server-addr={nacosServerAddr} --spring.profiles.active={activeProfile}
+
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=5s
+StartLimitIntervalSec=300
+StartLimitBurst=5
+TimeoutStartSec=30s
+TimeoutStopSec=60s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

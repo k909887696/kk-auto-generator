@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import { valid_platform_jurisdiction } from '@/api/meiya/common/login'
 
-const TokenKey = 'kk_auto_generator_front_token_' + process.env.NODE_ENV
+const TokenKey = 'kk_token_' + process.env.NODE_ENV
 
 export function getToken() {
   return Cookies.get(TokenKey)
