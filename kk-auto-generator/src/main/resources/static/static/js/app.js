@@ -8958,12 +8958,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 const config = {
-  kkautogenerator_api_url: "http://192.168.30.121:8882/",
+  kkautogenerator_api_url: "http://192.168.90.199:8882",
   table_list_empty_tip: '删库跑路了,很急,在线等！！！',
   meiya_report_api_url: "https://testtmcsz.shinetour.com/report/",
   meiya_tmcjurisdiction_api_url: "http://testtmcsz.shinetour.com/tmcjurisdiction/",
   meiya_maintenanceplatform_api_url: "https://mis.shinetour.com/",
-  meiya_platform_api_source: 'platform',
+  meiya_platform_api_source: 'quantization',
   meiya_platform_login_key: 'KazgM2cLibV+rS6/5/NN/lRib+b8HvQ4',
   default_user_icon: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
   app_title: "KK代码工具"
